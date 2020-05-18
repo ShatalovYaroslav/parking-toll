@@ -1,5 +1,5 @@
 
-package org.myproject.game.service;
+package org.myproject.parking.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -8,8 +8,8 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.myproject.game.fixtures.UserFixture;
-import org.myproject.game.model.User;
+import org.myproject.parking.fixtures.UserFixture;
+import org.myproject.parking.model.User;
 
 
 

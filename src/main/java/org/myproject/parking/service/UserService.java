@@ -1,12 +1,12 @@
 
-package org.myproject.game.service;
+package org.myproject.parking.service;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.myproject.game.model.User;
+import org.myproject.parking.model.User;
 import org.springframework.stereotype.Service;
 
 

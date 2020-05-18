@@ -1,5 +1,5 @@
 
-package org.myproject.game.rest;
+package org.myproject.parking.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -15,9 +15,9 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.myproject.game.fixtures.UserFixture;
-import org.myproject.game.model.User;
-import org.myproject.game.service.UserService;
+import org.myproject.parking.fixtures.UserFixture;
+import org.myproject.parking.model.User;
+import org.myproject.parking.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

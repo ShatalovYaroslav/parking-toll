@@ -1,5 +1,5 @@
 
-package org.myproject.game;
+package org.myproject.parking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -63,13 +63,13 @@ public class Application extends WebMvcConfigurerAdapter {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("game API")
-                                   .description("The purpose of this project is to play rock paper scissors game\n")
+        return new ApiInfoBuilder().title("parking API")
+                                   .description("The purpose of this project is to have parking toll management\n")
                                    .version("1.0")
                                    .build();
     }
 
     private Predicate<String> allowedPaths() {
-        return PathSelectors.regex("/users.*");
+        return PathSelectors.regex("/parking.*");
     }
 }

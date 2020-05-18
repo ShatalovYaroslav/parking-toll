@@ -1,12 +1,12 @@
 
-package org.myproject.game.rest;
+package org.myproject.parking.rest;
 
 import java.util.Collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.myproject.game.model.User;
-import org.myproject.game.service.UserService;
+import org.myproject.parking.model.User;
+import org.myproject.parking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

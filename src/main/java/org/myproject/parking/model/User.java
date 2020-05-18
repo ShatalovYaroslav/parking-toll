@@ -1,5 +1,5 @@
 
-package org.myproject.game.model;
+package org.myproject.parking.model;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
 
-package org.myproject.game.fixtures;
+package org.myproject.parking.fixtures;
 
-import org.myproject.game.model.User;
+import org.myproject.parking.model.User;
 
 
 
