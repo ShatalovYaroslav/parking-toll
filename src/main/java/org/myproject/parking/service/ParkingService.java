@@ -5,6 +5,7 @@ import org.myproject.parking.model.Parking;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Vehicle;
 import org.myproject.parking.model.vehicle.VehicleType;
+import org.myproject.parking.pricing.PolicyType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ParkingService {
     private Map<Integer, Parking> parkingMap = new HashMap<>();
 
     public Parking createParking(Map<VehicleType, Integer> spotsNumberByType, int price) {
-        Parking parking = new Parking(spotsNumberByType, price);
+        Parking parking = new Parking(spotsNumberByType, price, PolicyType.STANDARD);
         parkingMap.put(parking.getParkingId(), parking);
         return parking;
     }

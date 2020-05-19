@@ -23,7 +23,7 @@ public class Parking {
 
     private PolicyType pricingPolicyType; //depends on the certain implementation
 
-    public Parking(Map<VehicleType, Integer> spotsNumberByType, int price) {
+    public Parking(Map<VehicleType, Integer> spotsNumberByType, int price, PolicyType pricingPolicyType) {
         spots = new ArrayList<>();
         int i = 1; // will be autoincrement in DB
         for (Map.Entry<VehicleType, Integer> ent : spotsNumberByType.entrySet()) {
