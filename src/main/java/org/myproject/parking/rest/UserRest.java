@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.myproject.parking.model.User;
-import org.myproject.parking.service.UserService;
+import org.myproject.parking.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,13 +25,13 @@ public class UserRest {
     private final Logger logger = LogManager.getRootLogger();
 
     @Autowired
-    private UserService userService;
+    private ParkingService parkingService;
 
     //-------------------Retrieve All Users--------------------------------------------------------
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Collection<User>> listAllUsers() {
-        Collection<User> users = userService.findAllUsers();
+        Collection<User> users = parkingService.findAllUsers();
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -43,7 +43,7 @@ public class UserRest {
     @RequestMapping(value = "{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("name") String name) {
         logger.debug("Fetching User with name " + name);
-        return userService.findByName(name)
+        return parkingService.findByName(name)
                           .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                           .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
@@ -54,10 +54,10 @@ public class UserRest {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> createUser(@RequestBody User user) {
         logger.debug("Creating User " + user.getName());
-        return userService.findByName(user.getName())
+        return parkingService.findByName(user.getName())
                           .map(userFound -> new ResponseEntity<>(userFound, HttpStatus.CONFLICT))
                           .orElseGet(() -> {
-                              userService.saveUser(user);
+                              parkingService.saveUser(user);
                               return new ResponseEntity<>(user, HttpStatus.CREATED);
                           });
     }
@@ -68,8 +68,8 @@ public class UserRest {
     public ResponseEntity<User> updateUser(@PathVariable("name") String name, @RequestBody User user) {
         logger.debug("Updating User " + name);
 
-        return userService.findByName(name).map(userFound -> {
-            userService.updateUser(user);
+        return parkingService.findByName(name).map(userFound -> {
+            parkingService.updateUser(user);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
@@ -81,8 +81,8 @@ public class UserRest {
     public ResponseEntity<User> deleteUser(@PathVariable("name") String name) {
         logger.debug("Fetching & Deleting User with name " + name);
 
-        return userService.findByName(name).map(userFound -> {
-            userService.deleteUserByName(name);
+        return parkingService.findByName(name).map(userFound -> {
+            parkingService.deleteUserByName(name);
             return new ResponseEntity<>(userFound, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
@@ -93,7 +93,7 @@ public class UserRest {
     @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteAllUsers() {
         logger.debug("Deleting All Users");
-        userService.deleteAllUsers();
+        parkingService.deleteAllUsers();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
