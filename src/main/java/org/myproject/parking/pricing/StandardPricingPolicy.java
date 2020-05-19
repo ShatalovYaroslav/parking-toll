@@ -1,4 +1,4 @@
-package org.myproject.parking.model;
+package org.myproject.parking.pricing;
 
 import lombok.*;
 
@@ -8,9 +8,9 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class StandardPricingPolicy implements PricingPolicy{
+public class StandardPricingPolicy implements PricingPolicy {
     @Override
-    public int getPrice(int hours, int price) {
+    public float getPrice(int hours, float price) {
         return hours * price;
     }
 }

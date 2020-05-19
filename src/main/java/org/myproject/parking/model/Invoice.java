@@ -11,12 +11,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 
-//dto class to send to client for payment
+//DTO class to send to client for payment
 public class Invoice {
-    String invoiceId;
+    Integer invoiceId;
+    String licensePlate;
     LocalDateTime arrivalTime;
     LocalDateTime leavingTime;
 
     float cost;
-    String licensePlate;
+
+    public Invoice(SpotRent spotRent, float cost){
+        licensePlate = spotRent.getVehicle().getLicensePlate();
+        arrivalTime = spotRent.getArrivalTime();
+        leavingTime = spotRent.getLeavingTime();
+        this.cost = cost;
+    }
 }

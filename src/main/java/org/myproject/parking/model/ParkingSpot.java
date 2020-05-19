@@ -15,27 +15,29 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class ParkingSpot {
-    private String spotId; //spot Number, can be alphanumeric value (A12)
+    private int spotId;
     private VehicleType vehicleType;
     private float price;
 
-    //can be in separated class SpotRent, also can save list of transactions
-    private Vehicle vehicle;
-    private LocalDateTime arrivalTime;
-    private LocalDateTime leavingTime;
+    //corresponds to last rent operation, but as improvement can save a list of spot Rental transactions
+    SpotRent spotRent;
+
+    public ParkingSpot(int spotId, VehicleType vehicleType, float price) {
+        this.spotId = spotId;
+        this.vehicleType = vehicleType;
+        this.price = price;
+    }
 
     public boolean isFree() {
-        return vehicle == null;
+        return spotRent == null;
     }
 
     public void setupLeavingTime() {
-        leavingTime = LocalDateTime.now();
+        spotRent.setLeavingTime(LocalDateTime.now());
     }
 
     public void freeSpot() {
-        vehicle = null;
-        arrivalTime = null;
-        leavingTime = null;
+        spotRent = null;
     }
 
     public boolean hasCorrectType(Vehicle vehicle) {
@@ -46,8 +48,9 @@ public class ParkingSpot {
         if (!hasCorrectType(veh) || !isFree()) {
             return false;
         }
-        vehicle = veh;
-        arrivalTime = LocalDateTime.now();
+        spotRent = new SpotRent();
+        spotRent.setVehicle(veh);
+        spotRent.setLeavingTime(LocalDateTime.now());
         return true;
     }
 }

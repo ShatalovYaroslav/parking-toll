@@ -11,6 +11,7 @@ import java.util.Map;
 
 @Service("parkingService")
 public class ParkingSpotsCache {
+    //should be synchronized
     private Map<VehicleType, List<ParkingSpot>> freeSpotsByType = new HashMap<>();
     private Map<String, ParkingSpot> vehicleInSpotMap = new HashMap<>();
     private Map<String, Vehicle> vehicleByPlateMap = new HashMap<>();

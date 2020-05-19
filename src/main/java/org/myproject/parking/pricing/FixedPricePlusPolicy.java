@@ -1,4 +1,4 @@
-package org.myproject.parking.model;
+package org.myproject.parking.pricing;
 
 import lombok.*;
 
@@ -12,7 +12,7 @@ public class FixedPricePlusPolicy implements PricingPolicy{
     protected int fixedPrice;
 
     @Override
-    public int getPrice(int hours, int price) {
+    public float getPrice(int hours, float price) {
         return hours * price;
     }
 }
