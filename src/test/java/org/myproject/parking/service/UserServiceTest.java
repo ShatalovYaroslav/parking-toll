@@ -9,8 +9,6 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.myproject.parking.fixtures.UserFixture;
-import org.myproject.parking.model.User;
-
 
 
 public class UserServiceTest {
