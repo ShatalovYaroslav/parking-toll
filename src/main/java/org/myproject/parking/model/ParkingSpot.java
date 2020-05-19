@@ -1,4 +1,3 @@
-
 package org.myproject.parking.model;
 
 import lombok.*;
@@ -15,12 +14,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class ParkingSpot {
+    //corresponds to last rent operation, but as improvement can save a list of spot Rental transactions
+    SpotRent spotRent;
     private int spotId;
     private VehicleType vehicleType;
     private float price;
-
-    //corresponds to last rent operation, but as improvement can save a list of spot Rental transactions
-    SpotRent spotRent;
 
     public ParkingSpot(int spotId, VehicleType vehicleType, float price) {
         this.spotId = spotId;

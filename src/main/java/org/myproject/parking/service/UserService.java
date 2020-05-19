@@ -1,13 +1,12 @@
-
 package org.myproject.parking.service;
+
+import org.myproject.parking.model.User;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import org.myproject.parking.model.User;
-import org.springframework.stereotype.Service;
 
 
 @Service("userService")

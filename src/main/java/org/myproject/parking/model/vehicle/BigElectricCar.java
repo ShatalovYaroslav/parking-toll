@@ -8,12 +8,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BigElectricCar extends Vehicle {
-    public BigElectricCar(){
-        type = VehicleType.Gasoline;
+    public BigElectricCar() {
+        type = VehicleType.GASOLINE;
     }
 
-    public BigElectricCar(String plate){
-        type = VehicleType.FiftyKw;
+    public BigElectricCar(String plate) {
+        type = VehicleType.FIFTY_KW;
         this.licensePlate = plate;
     }
 }

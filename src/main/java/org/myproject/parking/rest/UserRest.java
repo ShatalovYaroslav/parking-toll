@@ -1,7 +1,4 @@
-
 package org.myproject.parking.rest;
-
-import java.util.Collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 
 /**
@@ -44,8 +43,8 @@ public class UserRest {
     public ResponseEntity<User> getUser(@PathVariable("name") String name) {
         logger.debug("Fetching User with name " + name);
         return parkingService.findByName(name)
-                          .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-                          .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
     }
 
@@ -55,11 +54,11 @@ public class UserRest {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         logger.debug("Creating User " + user.getName());
         return parkingService.findByName(user.getName())
-                          .map(userFound -> new ResponseEntity<>(userFound, HttpStatus.CONFLICT))
-                          .orElseGet(() -> {
-                              parkingService.saveUser(user);
-                              return new ResponseEntity<>(user, HttpStatus.CREATED);
-                          });
+                .map(userFound -> new ResponseEntity<>(userFound, HttpStatus.CONFLICT))
+                .orElseGet(() -> {
+                    parkingService.saveUser(user);
+                    return new ResponseEntity<>(user, HttpStatus.CREATED);
+                });
     }
 
     //------------------- Update a User --------------------------------------------------------

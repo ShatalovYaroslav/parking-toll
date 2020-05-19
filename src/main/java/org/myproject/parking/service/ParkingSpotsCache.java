@@ -16,19 +16,19 @@ public class ParkingSpotsCache {
     private Map<String, ParkingSpot> vehicleInSpotMap = new HashMap<>();
     private Map<String, Vehicle> vehicleByPlateMap = new HashMap<>();
 
-    public ParkingSpot getFreeSpotByType(VehicleType type){
+    public ParkingSpot getFreeSpotByType(VehicleType type) {
         List<ParkingSpot> freeSpots = freeSpotsByType.get(type);
-        if(freeSpots.isEmpty()){
+        if (freeSpots.isEmpty()) {
             throw new RuntimeException("No free spots for vehicle type: " + type);
         }
         return freeSpots.get(0);
     }
 
-    public Vehicle findVehicleByPlate(String plate){
+    public Vehicle findVehicleByPlate(String plate) {
         return vehicleByPlateMap.get(plate);
     }
 
-    public ParkingSpot findSpotByVehiclePlate(String plate){
+    public ParkingSpot findSpotByVehiclePlate(String plate) {
         return vehicleInSpotMap.get(plate);
     }
 }

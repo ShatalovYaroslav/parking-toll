@@ -13,4 +13,9 @@ public class StandardPricingPolicy implements PricingPolicy {
     public float getPrice(int hours, float price) {
         return hours * price;
     }
+
+    @Override
+    public PolicyType getType() {
+        return PolicyType.STANDARD;
+    }
 }

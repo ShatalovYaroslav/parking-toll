@@ -8,11 +8,16 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class FixedPricePlusPolicy implements PricingPolicy{
+public class FixedPricePlusPolicy implements PricingPolicy {
     protected int fixedPrice;
 
     @Override
     public float getPrice(int hours, float price) {
-        return hours * price;
+        return fixedPrice + hours * price;
+    }
+
+    @Override
+    public PolicyType getType() {
+        return PolicyType.FIXED_PLUS;
     }
 }

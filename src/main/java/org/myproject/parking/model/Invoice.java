@@ -20,7 +20,7 @@ public class Invoice {
 
     float cost;
 
-    public Invoice(SpotRent spotRent, float cost){
+    public Invoice(SpotRent spotRent, float cost) {
         licensePlate = spotRent.getVehicle().getLicensePlate();
         arrivalTime = spotRent.getArrivalTime();
         leavingTime = spotRent.getLeavingTime();

@@ -4,5 +4,5 @@ import lombok.ToString;
 
 @ToString
 public enum VehicleType {
-    Gasoline, TwentyKw, FiftyKw
+    GASOLINE, TWENTY_KW, FIFTY_KW
 }
