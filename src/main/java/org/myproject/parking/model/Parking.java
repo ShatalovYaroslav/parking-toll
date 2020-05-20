@@ -31,11 +31,12 @@ public class Parking {
         this.pricingPolicyType = pricingPolicyType;
         this.parkingId = parkingId;
 
+        int i=1;
         for (Map.Entry<VehicleType, Integer> ent : spotsNumberByType.entrySet()) {
             for (int c = 0; c < ent.getValue(); c++) {
                 float price = priceByVehicleType.get(ent.getKey());
                 // spotId will be autoincrement in DB
-                spots.add(new ParkingSpot(c, ent.getKey(), price));
+                spots.add(new ParkingSpot(i++, ent.getKey(), price));
             }
         }
     }
