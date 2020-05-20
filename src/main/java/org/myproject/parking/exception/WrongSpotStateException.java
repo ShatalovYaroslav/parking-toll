@@ -29,11 +29,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
-/**
- * This Exception is thrown when a DELETE request for bucket has been
- * received but such a Bucket is not empty (bucketName + owner)
- * The HTTP status is 403, 'Forbidden"
- */
+
 @ResponseStatus(value = HttpStatus.FORBIDDEN)
 public class WrongSpotStateException extends ClientException {
 

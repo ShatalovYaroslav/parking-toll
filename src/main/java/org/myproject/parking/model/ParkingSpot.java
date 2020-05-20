@@ -48,7 +48,7 @@ public class ParkingSpot {
         }
         spotRent = new SpotRent();
         spotRent.setVehicle(veh);
-        spotRent.setLeavingTime(LocalDateTime.now());
+        spotRent.setArrivalTime(LocalDateTime.now());
         return true;
     }
 }

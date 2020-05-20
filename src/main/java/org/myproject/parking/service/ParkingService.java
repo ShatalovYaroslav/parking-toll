@@ -1,6 +1,7 @@
 package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.myproject.parking.exception.ResourceNotFoundException;
 import org.myproject.parking.exception.WrongSpotStateException;
 import org.myproject.parking.model.Invoice;
 import org.myproject.parking.model.Parking;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Service("parkingService")
@@ -36,7 +38,8 @@ public class ParkingService {
     }
 
     public ParkingSpot parkVehicle(Integer parkingId, Vehicle vehicle) {
-        Parking parking = parkingMap.get(parkingId);
+        Parking parking = Optional.ofNullable(parkingMap.get(parkingId))
+                .orElseThrow(() -> new ResourceNotFoundException("No parking found for id:" + parkingId));
 
         ParkingSpot freeSpot = parkingSpotService.getFreeSpotInParkingByType(parking, vehicle.getType());
         if (!freeSpot.placeVehicle(vehicle))
@@ -47,7 +50,8 @@ public class ParkingService {
     }
 
     public Invoice leaveParking(Integer parkingId, String vehiclePlate) {
-        Parking parking = parkingMap.get(parkingId);
+        Parking parking = Optional.ofNullable(parkingMap.get(parkingId))
+                .orElseThrow(() -> new ResourceNotFoundException("No parking found for id:" + parkingId));
 
         ParkingSpot spot = parkingSpotService.getSpotInParkingByVehiclePlate(parking, vehiclePlate);
         spot.setupLeavingTime();

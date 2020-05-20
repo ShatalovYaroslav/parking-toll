@@ -1,5 +1,6 @@
 package org.myproject.parking.service;
 
+import org.myproject.parking.exception.WrongSpotRentException;
 import org.myproject.parking.model.Invoice;
 import org.myproject.parking.model.SpotRent;
 import org.myproject.parking.pricing.PolicyType;
@@ -18,6 +19,7 @@ public class BillingService {
     private PricingPolicyCatalog pricingPolicyCatalog;
 
     public Invoice billVehicle(PolicyType policyType, float price, final SpotRent spotRent) {
+        validateSpotRent(spotRent);
         PricingPolicy pricingPolicy = pricingPolicyCatalog.getPolicyByPolicyType(policyType);
 
         int rentHours = getParkingDurationInHours(spotRent);
@@ -28,6 +30,18 @@ public class BillingService {
 
     public int getParkingDurationInHours(SpotRent spotRent) {
         return (int) Duration.between(spotRent.getArrivalTime(), spotRent.getLeavingTime()).toHours();
+    }
+
+    private void validateSpotRent(final SpotRent spotRent){
+        if(spotRent.getVehicle() == null){
+            throw new WrongSpotRentException("There is no vehicle placed for this spot Rental: " + spotRent);
+        }
+        if(spotRent.getArrivalTime() == null || spotRent.getLeavingTime() == null){
+            throw new WrongSpotRentException("The arrival or leaving time is not setup for this spot Rental: " + spotRent);
+        }
+        if(spotRent.getArrivalTime().isAfter(spotRent.getLeavingTime())){
+            throw new WrongSpotRentException("The arrival is after the leaving time for this spot Rental: " + spotRent);
+        }
     }
 
 }
