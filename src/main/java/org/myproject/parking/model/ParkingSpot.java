@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @ToString
 public class ParkingSpot {
     //corresponds to last rent operation, but as improvement can save a list of spot Rental transactions
-    SpotRent spotRent;
+    private SpotRent spotRent;
     private int spotId;
     private VehicleType vehicleType;
     private float price;

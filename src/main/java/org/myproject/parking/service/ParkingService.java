@@ -1,5 +1,7 @@
 package org.myproject.parking.service;
 
+import lombok.extern.log4j.Log4j2;
+import org.myproject.parking.exception.WrongSpotStateException;
 import org.myproject.parking.model.Invoice;
 import org.myproject.parking.model.Parking;
 import org.myproject.parking.model.ParkingSpot;
@@ -14,10 +16,11 @@ import java.util.Map;
 
 
 @Service("parkingService")
+@Log4j2
 public class ParkingService {
 
     @Autowired
-    private ParkingSpotsCache parkingSpotsCache;
+    private ParkingSpotService parkingSpotService;
 
     @Autowired
     private BillingService billingService;
@@ -34,22 +37,30 @@ public class ParkingService {
 
     public ParkingSpot parkVehicle(Integer parkingId, Vehicle vehicle) {
         Parking parking = parkingMap.get(parkingId);
-        //todo get parking spots free spot
-        ParkingSpot freeSpot = parkingSpotsCache.getFreeSpotByType(vehicle.getType());
+
+        ParkingSpot freeSpot = parkingSpotService.getFreeSpotInParkingByType(parking, vehicle.getType());
         if (!freeSpot.placeVehicle(vehicle))
-            throw new RuntimeException("The vehicle can not be placed in parking spot :" + freeSpot.getSpotId());
+            throw new WrongSpotStateException(freeSpot.getSpotId());
+        log.info("The vehicle with plate: " + vehicle.getLicensePlate() + " was parked in spot: " + freeSpot);
+        log.debug("Parking state after parked car: " + parking);
         return freeSpot;
     }
 
     public Invoice leaveParking(Integer parkingId, String vehiclePlate) {
         Parking parking = parkingMap.get(parkingId);
-        //todo get parking spots spot by parkingId
-        ParkingSpot spot = parkingSpotsCache.findSpotByVehiclePlate(vehiclePlate);
+        
+        ParkingSpot spot = parkingSpotService.getSpotInParkingByVehiclePlate(parking, vehiclePlate);
         spot.setupLeavingTime();
+
+        log.info("The vehicle with plate: " + vehiclePlate + " is leaving from the parked spot: " + spot);
+        log.debug("Parking state with leaving car: " + parking);
 
         //todo can be separated API call
         Invoice invoice = billingService.billVehicle(parking.getPricingPolicyType(), spot.getPrice(), spot.getSpotRent());
         spot.freeSpot();
+
+        log.info("The invoice was generated for vehicle with license plate: " + vehiclePlate + " invoice: " + invoice);
+        log.debug("Parking state after car has left: " + parking);
 
         return invoice;
     }
