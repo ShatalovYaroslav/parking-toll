@@ -17,9 +17,9 @@ public class Invoice {
     Integer invoiceId;
     String parkingName;
     String licensePlate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     LocalDateTime arrivalTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
     LocalDateTime leavingTime;
 
     float cost;
