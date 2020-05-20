@@ -6,6 +6,7 @@ import org.myproject.parking.model.Parking;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.pricing.PolicyType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -24,11 +25,16 @@ public class ParkingStartupAdder {
     @Autowired
     ParkingService parkingService;
 
-    //todo create test parking only if config flag is setup
+    @Value("${create.testing.parking}")
+    private boolean createParking;
 
     @PostConstruct
-    public void initAddParking() {
+    public void initAddParking( ) {
         log.info("Trying to add test parking on startup");
+        if(!createParking){
+            log.info("No test parking will be added on startup");
+            return;
+        }
         Integer parkingId = 1;
         String name = "Test parking";
         Map< VehicleType, Integer> spotsNumberByType = new HashMap<>();
