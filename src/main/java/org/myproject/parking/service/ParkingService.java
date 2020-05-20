@@ -48,7 +48,7 @@ public class ParkingService {
 
     public Invoice leaveParking(Integer parkingId, String vehiclePlate) {
         Parking parking = parkingMap.get(parkingId);
-        
+
         ParkingSpot spot = parkingSpotService.getSpotInParkingByVehiclePlate(parking, vehiclePlate);
         spot.setupLeavingTime();
 

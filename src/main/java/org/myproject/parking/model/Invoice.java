@@ -4,7 +4,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@EqualsAndHashCode(of = "parkingId")
+@EqualsAndHashCode(of = "invoiceId")
 @Getter
 @Setter
 @NoArgsConstructor

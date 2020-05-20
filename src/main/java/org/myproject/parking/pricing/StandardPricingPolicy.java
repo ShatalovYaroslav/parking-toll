@@ -1,10 +1,13 @@
 package org.myproject.parking.pricing;
 
 import lombok.*;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
+
+@Component
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
