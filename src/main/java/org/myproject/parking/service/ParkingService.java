@@ -60,7 +60,7 @@ public class ParkingService {
         log.debug("Parking state with leaving car: " + parking);
 
         //todo can be separated API call
-        Invoice invoice = billingService.billVehicle(parking.getPricingPolicyType(), spot.getPrice(), spot.getSpotRent());
+        Invoice invoice = billingService.billVehicle(parking.getName(), parking.getPricingPolicyType(), spot.getPrice(), spot.getSpotRent());
         spot.freeSpot();
 
         log.info("The invoice was generated for vehicle with license plate: " + vehiclePlate + " invoice: " + invoice);

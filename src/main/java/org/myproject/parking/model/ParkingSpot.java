@@ -1,5 +1,6 @@
 package org.myproject.parking.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.myproject.parking.model.vehicle.Vehicle;
 import org.myproject.parking.model.vehicle.VehicleType;
@@ -17,6 +18,7 @@ public class ParkingSpot {
     //corresponds to last rent operation, but as improvement can save a list of spot Rental transactions
     private SpotRent spotRent;
     private int spotId;
+
     private VehicleType vehicleType;
     private float price;
 

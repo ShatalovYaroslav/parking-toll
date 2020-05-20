@@ -18,14 +18,14 @@ public class BillingService {
     @Autowired
     private PricingPolicyCatalog pricingPolicyCatalog;
 
-    public Invoice billVehicle(PolicyType policyType, float price, final SpotRent spotRent) {
+    public Invoice billVehicle(String parkingName, PolicyType policyType, float price, final SpotRent spotRent) {
         validateSpotRent(spotRent);
         PricingPolicy pricingPolicy = pricingPolicyCatalog.getPolicyByPolicyType(policyType);
 
         int rentHours = getParkingDurationInHours(spotRent);
         float cost = pricingPolicy.getPrice(rentHours, price);
 
-        return new Invoice(spotRent, cost);
+        return new Invoice(parkingName, spotRent, cost);
     }
 
     public int getParkingDurationInHours(SpotRent spotRent) {

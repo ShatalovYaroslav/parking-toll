@@ -32,20 +32,20 @@ public class ParkingRest {
     @Autowired
     private ParkingService parkingService;
 
-    @RequestMapping(value = "{id}/park", method = RequestMethod.POST)
-    public ResponseEntity<ParkingSpot> parkVehicle(@PathVariable("id") Integer id, @RequestBody Vehicle vehicle) {
-        logger.debug("Place a vehicle in park with id: " + id);
+    @RequestMapping(value = "{parkId}/place", method = RequestMethod.POST)
+    public ResponseEntity<ParkingSpot> parkVehicle(@PathVariable("parkId") Integer parkingId, @RequestBody Vehicle vehicle) {
+        logger.debug("Place a vehicle in park with id: " + parkingId);
 
-        ParkingSpot spot = parkingService.parkVehicle(id, vehicle);
+        ParkingSpot spot = parkingService.parkVehicle(parkingId, vehicle);
         return new ResponseEntity<>(spot, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "{id}/leave", method = RequestMethod.POST)
-    public ResponseEntity<Invoice> leaveParking(@PathVariable("id") Integer id,
+    @RequestMapping(value = "{parkId}/leave", method = RequestMethod.PUT)
+    public ResponseEntity<Invoice> leaveParking(@PathVariable("parkId") Integer parkId,
                                               @ApiParam(value = "The license plate of the leaving Vehicle") @RequestParam(value = "licensePlate") String licensePlate) {
-        logger.debug("A vehicle leaves the park with id: " + id);
+        logger.debug("A vehicle leaves the park with id: " + parkId);
 
-        Invoice invoice = parkingService.leaveParking(id, licensePlate);
+        Invoice invoice = parkingService.leaveParking(parkId, licensePlate);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 }

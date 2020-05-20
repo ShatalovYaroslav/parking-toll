@@ -19,7 +19,6 @@ import lombok.ToString;
         @JsonSubTypes.Type(value = Sedan.class, name = "gasoline") })
 public abstract class Vehicle {
 
-    @JsonProperty("license_plate")
     protected String licensePlate;
     protected VehicleType type;
 }
