@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.myproject.parking.exception.UnprocessableEntityException;
 
 @EqualsAndHashCode(of = "licensePlate")
 @Getter
@@ -21,4 +22,5 @@ public abstract class Vehicle {
 
     protected String licensePlate;
     protected VehicleType type;
+
 }

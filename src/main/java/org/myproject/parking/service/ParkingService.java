@@ -9,6 +9,7 @@ import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Vehicle;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.pricing.PolicyType;
+import org.myproject.parking.util.PlateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class ParkingService {
     @Autowired
     private BillingService billingService;
 
+    @Autowired
+    private PlateValidator plateValidator;
+
     private Map<Integer, Parking> parkingMap = new HashMap<>();
 
     public Parking createParking(Integer parkingId, String name,
@@ -38,6 +42,8 @@ public class ParkingService {
     }
 
     public ParkingSpot parkVehicle(Integer parkingId, Vehicle vehicle) {
+        plateValidator.validateLicensePlate(vehicle.getLicensePlate());
+
         Parking parking = Optional.ofNullable(parkingMap.get(parkingId))
                 .orElseThrow(() -> new ResourceNotFoundException("No parking found for id:" + parkingId));
 
