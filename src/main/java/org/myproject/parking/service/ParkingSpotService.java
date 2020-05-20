@@ -14,25 +14,13 @@ import java.util.Optional;
 
 @Service("spotService")
 public class ParkingSpotService {
-    //should be synchronized
-    private Map<VehicleType, List<ParkingSpot>> freeSpotsByType = new HashMap<>();
-    private Map<String, ParkingSpot> vehicleInSpotMap = new HashMap<>();
-    private Map<String, Vehicle> vehicleByPlateMap = new HashMap<>();
 
-    public ParkingSpot getFreeSpotByType(VehicleType type) {
-        List<ParkingSpot> freeSpots = freeSpotsByType.get(type);
-        if (freeSpots.isEmpty()) {
-            throw new RuntimeException("No free spots for vehicle type: " + type);
-        }
-        return freeSpots.get(0);
-    }
+    public ParkingSpot findSpotById(Parking parking, int spotId) {
+        Optional<ParkingSpot> requiredSpot = parking.getSpots().stream()
+                .filter(spot -> spot.getSpotId() == spotId)
+                .filter(ParkingSpot::isFree).findFirst();
 
-    public Vehicle findVehicleByPlate(String plate) {
-        return vehicleByPlateMap.get(plate);
-    }
-
-    public ParkingSpot findSpotByVehiclePlate(String plate) {
-        return vehicleInSpotMap.get(plate);
+        return requiredSpot.orElseThrow(SpotNotFoundException::new);
     }
 
     public ParkingSpot getFreeSpotInParkingByType(Parking parking, VehicleType type) {
