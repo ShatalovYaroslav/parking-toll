@@ -24,8 +24,10 @@ public class ParkingService {
 
     private Map<Integer, Parking> parkingMap = new HashMap<>();
 
-    public Parking createParking(Map<VehicleType, Integer> spotsNumberByType, int price) {
-        Parking parking = new Parking(spotsNumberByType, price, PolicyType.STANDARD);
+    public Parking createParking(Integer parkingId, String name,
+                                 Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType,
+                                 PolicyType pricingPolicyType) {
+        Parking parking = new Parking(parkingId, name, spotsNumberByType, priceByVehicleType, pricingPolicyType);
         parkingMap.put(parking.getParkingId(), parking);
         return parking;
     }
