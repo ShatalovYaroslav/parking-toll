@@ -1,5 +1,5 @@
 
-package rest;
+package org.myproject.parking.rest;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
@@ -7,7 +7,6 @@ import com.jayway.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.myproject.parking.Application;
 import org.myproject.parking.model.vehicle.BigElectricCar;
 import org.myproject.parking.model.vehicle.Sedan;
@@ -18,11 +17,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.jayway.restassured.RestAssured.given;
-import static com.jayway.restassured.RestAssured.withArgs;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
@@ -71,7 +66,7 @@ public class ParkingRestTest extends AbstractRestTest {
                 .body("spotRent.leavingTime", nullValue())
                 .body("free", is(false));
 
-        }
+    }
 
     @Test
     public void testLeaveParking() {

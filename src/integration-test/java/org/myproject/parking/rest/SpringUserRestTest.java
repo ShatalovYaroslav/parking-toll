@@ -1,5 +1,5 @@
 
-package rest;
+package org.myproject.parking.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;

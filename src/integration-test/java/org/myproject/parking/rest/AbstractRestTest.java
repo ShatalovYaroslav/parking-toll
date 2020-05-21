@@ -1,5 +1,5 @@
 
-package rest;
+package org.myproject.parking.rest;
 
 import org.springframework.beans.factory.annotation.Value;
 
