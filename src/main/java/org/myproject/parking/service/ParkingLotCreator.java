@@ -36,10 +36,11 @@ public class ParkingLotCreator {
 
         validateParameters(parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig.getPolicyType());
 
-        return populateParkingWithSpots(parkingLotMetadata.getName(), parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig);
+        return populateParkingWithSpots(parkingLotMetadata.getParkingId(),
+                parkingLotMetadata.getName(), parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig);
     }
 
-    private Parking populateParkingWithSpots(String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
+    private Parking populateParkingWithSpots(Integer parkId, String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
         List<ParkingSpot> spots = new ArrayList<>();
 
         int i = 1;
@@ -50,7 +51,7 @@ public class ParkingLotCreator {
                 spots.add(new ParkingSpot(i++, ent.getKey(), price));
             }
         }
-        return new Parking(name, spots, pricingConfig);
+        return new Parking(parkId, name, spots, pricingConfig);
     }
 
     protected void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PolicyType policyType) {
