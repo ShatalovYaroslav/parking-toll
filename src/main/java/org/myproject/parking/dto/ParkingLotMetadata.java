@@ -14,6 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 @ToString
 public class ParkingLotMetadata implements Serializable {
+    private Integer parkingId;
     private String name;        //help find and identify parking
 
     private String policyType;
