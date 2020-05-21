@@ -12,18 +12,13 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 
 @Log4j2
 @Component
 public class ParkingStartupAdder {
     @Autowired
-    ParkingService parkingService;
+    ParkingLotService parkingLotService;
 
     @Value("${create.testing.parking}")
     private boolean createParking;
@@ -49,7 +44,7 @@ public class ParkingStartupAdder {
         priceByVehicleType.put(VehicleType.FIFTY_KW, 7.0f);
         priceByVehicleType.put(VehicleType.TWENTY_KW, 5.2f);
 
-        Parking parking = parkingService.createParking(parkingId, name,
+        Parking parking = parkingLotService.createParking(parkingId, name,
                 spotsNumberByType, priceByVehicleType,
                 pricingPolicyType);
         log.info("Created test parking: " + parking);

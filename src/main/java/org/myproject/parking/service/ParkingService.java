@@ -1,21 +1,14 @@
 package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
-import org.myproject.parking.exception.ResourceNotFoundException;
 import org.myproject.parking.exception.WrongSpotStateException;
 import org.myproject.parking.model.Invoice;
 import org.myproject.parking.model.Parking;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Vehicle;
-import org.myproject.parking.model.vehicle.VehicleType;
-import org.myproject.parking.pricing.PolicyType;
 import org.myproject.parking.util.PlateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 
 @Service("parkingService")
@@ -31,21 +24,14 @@ public class ParkingService {
     @Autowired
     private PlateValidator plateValidator;
 
-    private Map<Integer, Parking> parkingMap = new HashMap<>();
+    @Autowired
+    private ParkingLotService parkingLotService;
 
-    public Parking createParking(Integer parkingId, String name,
-                                 Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType,
-                                 PolicyType pricingPolicyType) {
-        Parking parking = new Parking(parkingId, name, spotsNumberByType, priceByVehicleType, pricingPolicyType);
-        parkingMap.put(parking.getParkingId(), parking);
-        return parking;
-    }
 
     public ParkingSpot parkVehicle(Integer parkingId, Vehicle vehicle) {
         plateValidator.validateLicensePlate(vehicle.getLicensePlate());
 
-        Parking parking = Optional.ofNullable(parkingMap.get(parkingId))
-                .orElseThrow(() -> new ResourceNotFoundException("No parking found for id:" + parkingId));
+        Parking parking = parkingLotService.getParking(parkingId);
 
         ParkingSpot freeSpot = parkingSpotService.getFreeSpotInParkingByType(parking, vehicle.getType());
         if (!freeSpot.placeVehicle(vehicle))
@@ -56,8 +42,7 @@ public class ParkingService {
     }
 
     public Invoice leaveParking(Integer parkingId, String vehiclePlate) {
-        Parking parking = Optional.ofNullable(parkingMap.get(parkingId))
-                .orElseThrow(() -> new ResourceNotFoundException("No parking found for id:" + parkingId));
+        Parking parking = parkingLotService.getParking(parkingId);
 
         ParkingSpot spot = parkingSpotService.getSpotInParkingByVehiclePlate(parking, vehiclePlate);
         spot.setupLeavingTime();
