@@ -27,6 +27,10 @@ public class ParkingService {
     @Autowired
     private ParkingLotService parkingLotService;
 
+    public ParkingSpot getParkingSpotByIDd(Integer parkingId, Integer spotId){
+        Parking parking = parkingLotService.getParking(parkingId);
+        return parkingSpotService.findSpotById(parking, spotId);
+    }
 
     public ParkingSpot parkVehicle(Integer parkingId, Vehicle vehicle) {
         plateValidator.validateLicensePlate(vehicle.getLicensePlate());

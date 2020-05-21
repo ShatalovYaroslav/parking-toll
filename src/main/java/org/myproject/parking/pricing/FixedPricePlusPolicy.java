@@ -1,7 +1,6 @@
 package org.myproject.parking.pricing;
 
 import lombok.*;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @ToString
 public class FixedPricePlusPolicy implements PricingPolicy {
-    protected int fixedPrice;
+    protected float fixedPrice;
 
     @Override
     public float getPrice(int hours, float price) {

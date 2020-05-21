@@ -15,13 +15,13 @@ public class PricingPolicyCatalog {
     private final Map<PolicyType, PricingPolicy> pricingPolicies;
 
     @Autowired
-    public PricingPolicyCatalog(List<PricingPolicy> PricingPoliciesFromSpringContext) {
-        pricingPolicies = PricingPoliciesFromSpringContext.stream().collect(Collectors.toMap(PricingPolicy::getType,
+    public PricingPolicyCatalog(List<PricingPolicy> pricingPoliciesFromSpringContext) {
+        pricingPolicies = pricingPoliciesFromSpringContext.stream().collect(Collectors.toMap(PricingPolicy::getType,
                 Function.identity()));
     }
 
-    public void registerPolicy(PolicyType PolicyType, PricingPolicy PricingPolicy) {
-        pricingPolicies.put(PolicyType, PricingPolicy);
+    public void registerPolicy(PolicyType PolicyType, PricingPolicy pricingPolicy) {
+        pricingPolicies.put(PolicyType, pricingPolicy);
     }
 
     public void removePolicyByType(PolicyType PolicyType) {
@@ -32,8 +32,8 @@ public class PricingPolicyCatalog {
         return pricingPolicies.getOrDefault(PolicyType, new StandardPricingPolicy());
     }
 
-    public PricingPolicy getPolicyByPolicyTypeAsString(String PolicyTypeStr) {
-        PolicyType currentPolicyType = PolicyType.valueOf(PolicyTypeStr.toUpperCase());
+    public PricingPolicy getPolicyByPolicyTypeAsString(String policyTypeStr) {
+        PolicyType currentPolicyType = PolicyType.valueOf(policyTypeStr.toUpperCase());
         return pricingPolicies.get(currentPolicyType);
     }
 }
