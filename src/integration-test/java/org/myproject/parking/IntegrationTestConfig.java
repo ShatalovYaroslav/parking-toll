@@ -4,12 +4,17 @@ package org.myproject.parking;
 import org.myproject.parking.pricing.FixedPricePlusPolicy;
 import org.myproject.parking.pricing.PricingPolicy;
 import org.myproject.parking.pricing.PricingPolicyCatalog;
+import org.myproject.parking.pricing.StandardPricingPolicy;
+import org.myproject.parking.pricing.provider.FixedPlusPriceConfigProvider;
+import org.myproject.parking.pricing.provider.PricingConfigProvider;
 import org.myproject.parking.service.*;
+import org.myproject.parking.util.ParkingLotStartupFixture;
 import org.myproject.parking.util.PlateValidator;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +24,7 @@ import java.util.List;
 @EnableAutoConfiguration
 @EntityScan(basePackages = { "org.myproject.parking" })
 @Profile("test")
+@PropertySource("classpath:application-test.properties")
 public class IntegrationTestConfig {
 
     public static final float FIXED_PRICE_POLICY = 10f;
@@ -40,9 +46,10 @@ public class IntegrationTestConfig {
 
     @Bean
     public PricingPolicyCatalog PricingPolicyCatalog() {
-        List<PricingPolicy> PricingPoliciesFromSpringContext = new ArrayList<>();
-        PricingPoliciesFromSpringContext.add(new FixedPricePlusPolicy());
-        return new PricingPolicyCatalog(PricingPoliciesFromSpringContext);
+        List<PricingPolicy> pricingPolicies = new ArrayList<>();
+        pricingPolicies.add(new FixedPricePlusPolicy());
+        pricingPolicies.add(new StandardPricingPolicy());
+        return new PricingPolicyCatalog(pricingPolicies);
     }
     @Bean
     public ParkingSpotService ParkingSpotService() {
@@ -57,5 +64,20 @@ public class IntegrationTestConfig {
     @Bean
     public ParkingStartupAdder parkingStartupAdder() {
         return new ParkingStartupAdder();
+    }
+
+    @Bean
+    public ParkingLotCreator parkingLotCreator() {
+        return new ParkingLotCreator();
+    }
+
+    @Bean
+    public ParkingLotStartupFixture parkingLotStartupFixture() {
+        return new ParkingLotStartupFixture();
+    }
+
+    @Bean
+    public PricingConfigProvider pricingConfigProvider() {
+        return new FixedPlusPriceConfigProvider();
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.myproject.parking.IntegrationTestConfig.FIXED_PRICE_POLICY;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 
@@ -99,7 +100,7 @@ public class ParkingRestTest extends AbstractRestTest {
                 .body("licensePlate", is(testCar.getLicensePlate()))
                 .body("arrivalTime", notNullValue())
                 .body("leavingTime", notNullValue())
-                .body("cost", is(0f));
+                .body("cost", is(FIXED_PRICE_POLICY));
     }
 }
 
