@@ -1,10 +1,10 @@
 package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.myproject.parking.dto.ParkingLotMetadata;
 import org.myproject.parking.exception.ResourceNotFoundException;
 import org.myproject.parking.model.Parking;
-import org.myproject.parking.model.vehicle.VehicleType;
-import org.myproject.parking.pricing.PolicyType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,12 +14,14 @@ import java.util.Optional;
 @Service
 @Log4j2
 public class ParkingLotService {
+
+    @Autowired
+    private ParkingLotCreator parkingLotCreator;
+
     private Map<Integer, Parking> parkingMap = new HashMap<>();
 
-    public Parking createParking(Integer parkingId, String name,
-                                 Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType,
-                                 PolicyType pricingPolicyType) {
-        Parking parking = new Parking(parkingId, name, spotsNumberByType, priceByVehicleType, pricingPolicyType);
+    public Parking createParking(ParkingLotMetadata parkingLotMetadata) {
+        Parking parking = parkingLotCreator.createParking(parkingLotMetadata);
         parkingMap.put(parking.getParkingId(), parking);
         return parking;
     }

@@ -2,8 +2,8 @@ package org.myproject.parking.service;
 
 import org.myproject.parking.exception.WrongSpotRentException;
 import org.myproject.parking.model.Invoice;
+import org.myproject.parking.model.Parking;
 import org.myproject.parking.model.SpotRent;
-import org.myproject.parking.pricing.PolicyType;
 import org.myproject.parking.pricing.PricingPolicy;
 import org.myproject.parking.pricing.PricingPolicyCatalog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,15 @@ public class BillingService {
     @Autowired
     private PricingPolicyCatalog pricingPolicyCatalog;
 
-    public Invoice billVehicle(String parkingName, PolicyType policyType, float price, final SpotRent spotRent) {
+    public Invoice billVehicle(Parking parking, float price, final SpotRent spotRent) {
         validateSpotRent(spotRent);
-        PricingPolicy pricingPolicy = pricingPolicyCatalog.getPolicyByPolicyType(policyType);
+        PricingPolicy pricingPolicy = pricingPolicyCatalog.getPolicyByPolicyType(
+                parking.getPricingConfig().getPolicyType());
 
         int rentHours = getParkingDurationInHours(spotRent);
-        float cost = pricingPolicy.getPrice(rentHours, price);
+        float cost = pricingPolicy.getPrice(rentHours, price, parking.getPricingConfig().getPricingParameters());
 
-        return new Invoice(parkingName, spotRent, cost);
+        return new Invoice(parking.getName(), spotRent, cost);
     }
 
     public int getParkingDurationInHours(SpotRent spotRent) {

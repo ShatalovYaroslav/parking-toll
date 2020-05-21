@@ -1,11 +1,9 @@
 package org.myproject.parking.model;
 
 import lombok.*;
-import org.myproject.parking.exception.AddParkingException;
-import org.myproject.parking.model.vehicle.VehicleType;
-import org.myproject.parking.pricing.PolicyType;
+import org.myproject.parking.pricing.PricingConfig;
 
-import java.util.*;
+import java.util.List;
 
 
 @EqualsAndHashCode(of = "parkingId")
@@ -19,35 +17,11 @@ public class Parking {
     private String name;        //help find and identify parking
     private List<ParkingSpot> spots;
 
-    private PolicyType pricingPolicyType; //depends on the certain implementation
+    private PricingConfig pricingConfig; //depends on the certain implementation
 
-    private Map<VehicleType, Float> priceByVehicleType = new HashMap<>(); //different price for vehicle types
-
-    public Parking(Integer parkingId, String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PolicyType pricingPolicyType) {
-
-        spots = new ArrayList<>();
+    public Parking(String name, List<ParkingSpot> spots, PricingConfig pricingConfig) {
         this.name = name;
-        this.priceByVehicleType = priceByVehicleType;
-        this.pricingPolicyType = pricingPolicyType;
-        this.parkingId = parkingId;
-
-        int i=1;
-        for (Map.Entry<VehicleType, Integer> ent : spotsNumberByType.entrySet()) {
-            for (int c = 0; c < ent.getValue(); c++) {
-                float price = priceByVehicleType.get(ent.getKey());
-                // spotId will be autoincrement in DB
-                spots.add(new ParkingSpot(i++, ent.getKey(), price));
-            }
-        }
-    }
-
-    //should be in separated service
-    public void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Integer> priceByVehicleType, PolicyType pricingPolicyType){
-        if(spotsNumberByType.size() != priceByVehicleType.size()){
-            throw new AddParkingException("Size of Vehicle Types for spots does not match with the size of Vehicle Types for pricing");
-        }
-        //todo check if VehicleTypes corresponds between spots Vehicle Types for pricing
-
-        //todo check if pricingPolicyType exists implementation
+        this.spots = spots;
+        this.pricingConfig = pricingConfig;
     }
 }
