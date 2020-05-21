@@ -4,10 +4,7 @@ package org.myproject.parking;
 import org.myproject.parking.pricing.FixedPricePlusPolicy;
 import org.myproject.parking.pricing.PricingPolicy;
 import org.myproject.parking.pricing.PricingPolicyCatalog;
-import org.myproject.parking.service.BillingService;
-import org.myproject.parking.service.ParkingLotService;
-import org.myproject.parking.service.ParkingService;
-import org.myproject.parking.service.ParkingSpotService;
+import org.myproject.parking.service.*;
 import org.myproject.parking.util.PlateValidator;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -44,15 +41,21 @@ public class IntegrationTestConfig {
     @Bean
     public PricingPolicyCatalog PricingPolicyCatalog() {
         List<PricingPolicy> PricingPoliciesFromSpringContext = new ArrayList<>();
-        PricingPoliciesFromSpringContext.add(new FixedPricePlusPolicy(FIXED_PRICE_POLICY));
+        PricingPoliciesFromSpringContext.add(new FixedPricePlusPolicy());
         return new PricingPolicyCatalog(PricingPoliciesFromSpringContext);
     }
     @Bean
     public ParkingSpotService ParkingSpotService() {
         return new ParkingSpotService();
     }
+
     @Bean
     public PlateValidator plateValidator() {
         return new PlateValidator();
+    }
+
+    @Bean
+    public ParkingStartupAdder parkingStartupAdder() {
+        return new ParkingStartupAdder();
     }
 }

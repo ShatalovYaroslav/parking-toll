@@ -38,6 +38,9 @@ public class ParkingLogicIntegrationTest {
     @Autowired
     private ParkingService parkingService;
 
+    @Autowired
+    private ParkingStartupAdder parkingStartupAdder;
+
     private Parking parking;
 
     @Before
@@ -56,9 +59,7 @@ public class ParkingLogicIntegrationTest {
         priceByVehicleType.put(VehicleType.FIFTY_KW, 7.0f);
         priceByVehicleType.put(VehicleType.TWENTY_KW, 5.2f);
 
-        parking = parkingLotService.createParking(parkingId, name,
-                spotsNumberByType, priceByVehicleType,
-                pricingPolicyType);
+        parking = parkingLotService.createParking(parkingStartupAdder.createTestParking());
 
         assertThat(parking).isNotNull();
         assertThat(parking.getName()).isEqualTo(name);
