@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.myproject.parking.IntegrationTestConfig;
+import org.myproject.parking.exception.SpotNotFoundException;
+import org.myproject.parking.model.Invoice;
 import org.myproject.parking.model.Parking;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Sedan;
@@ -22,12 +24,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.myproject.parking.IntegrationTestConfig.FIXED_PRICE_POLICY;
 
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {IntegrationTestConfig.class})
-
 public class ParkingLogicIntegrationTest {
 
     @Autowired
@@ -39,13 +41,13 @@ public class ParkingLogicIntegrationTest {
     private Parking parking;
 
     @Before
-    public void createBucket() {
+    public void createParking() {
         Integer parkingId = 1;
         String name = "Test parking";
         Map<VehicleType, Integer> spotsNumberByType = new HashMap<>();
         Map<VehicleType, Float> priceByVehicleType = new HashMap<>();
 
-        PolicyType pricingPolicyType = PolicyType.STANDARD;
+        PolicyType pricingPolicyType = PolicyType.FIXED_PLUS;
         spotsNumberByType.put(VehicleType.GASOLINE, 3);
         spotsNumberByType.put(VehicleType.FIFTY_KW, 2);
         spotsNumberByType.put(VehicleType.TWENTY_KW, 2);
@@ -64,7 +66,7 @@ public class ParkingLogicIntegrationTest {
     }
 
     @After
-    public void deleteBucket() {
+    public void deleteParking() {
         parkingLotService.removeParking(parking.getParkingId());
     }
 
@@ -78,5 +80,39 @@ public class ParkingLogicIntegrationTest {
         assertThat(parkedSpot.getSpotRent()).isNotNull();
         assertThat(parkedSpot.getSpotRent().getArrivalTime()).isAtLeast(startParking);
         assertThat(parkedSpot.getSpotRent().getVehicle()).isEqualTo(testCar);
+    }
+
+    @Test(expected = SpotNotFoundException.class)
+    public void tesVehicleLeavesParkingWithoutBeingParked() {
+        Vehicle testCar = new Sedan("license plate 1");
+        Invoice invoice = parkingService.leaveParking(parking.getParkingId(), testCar.getLicensePlate());
+    }
+
+    @Test
+    public void tesVehicleLeavesParking() {
+        LocalDateTime startParking = LocalDateTime.now();
+        Vehicle testCar = new Sedan("license plate 1");
+        //place vehicle first
+        ParkingSpot parkedSpot = parkingService.parkVehicle(parking.getParkingId(), testCar);
+
+        //leave parking and get the Invoice
+        Invoice invoice = parkingService.leaveParking(parking.getParkingId(), testCar.getLicensePlate());
+        assertThat(invoice).isNotNull();
+        assertThat(invoice.getParkingName()).isEqualTo(parking.getName());
+        assertThat(invoice.getLicensePlate()).isEqualTo(testCar.getLicensePlate());
+        assertThat(invoice.getArrivalTime()).isAtLeast(startParking);
+        assertThat(invoice.getLeavingTime()).isNotNull();
+        assertThat(invoice.getLeavingTime()).isAtLeast(invoice.getArrivalTime());
+        assertThat(invoice.getCost()).isEqualTo(FIXED_PRICE_POLICY);
+
+        //check that parking has the same amount of spots
+        Parking parkingAfterLeave = parkingLotService.getParking(parking.getParkingId());
+        assertThat(parkingAfterLeave.getSpots().size()).isEqualTo(parking.getSpots().size());
+
+        //check if spot is free
+        ParkingSpot spotFreed = parkingService.getParkingSpotByIDd(parking.getParkingId(), parkedSpot.getSpotId());
+        assertThat(spotFreed).isNotNull();
+        assertThat(spotFreed.getSpotRent()).isNull();
+        assertThat(spotFreed.isFree()).isTrue();
     }
 }

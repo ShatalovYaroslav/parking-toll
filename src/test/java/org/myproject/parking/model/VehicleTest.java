@@ -29,8 +29,10 @@ public class VehicleTest {
         vehicles.add(bigElectricCar);
 
         String jsonDataString = mapper.writeValueAsString(vehicles);
-        assertThat(jsonDataString, containsString("\"type\":\"gasoline\",\"license_plate\":\"F1-Plate\""));
-        assertThat(jsonDataString, containsString("\"type\":\"fifty_kw\",\"license_plate\":\"Electric-plate\""));
+        assertThat(jsonDataString, containsString("\"licensePlate\":\"F1-Plate\""));
+        assertThat(jsonDataString, containsString("\"type\":\"gasoline\""));
+        assertThat(jsonDataString, containsString("\"type\":\"fifty_kw\""));
+        assertThat(jsonDataString, containsString("\"licensePlate\":\"Electric-plate\""));
     }
 
     @Test
@@ -38,7 +40,7 @@ public class VehicleTest {
             throws IOException {
         String json =
                 "{\n" +
-                        "  \"license_plate\": \"somePlate\",\n" +
+                        "  \"licensePlate\": \"somePlate\",\n" +
                         "  \"type\": \"gasoline\"\n" +
                         "}";
         ObjectMapper mapper = new ObjectMapper();

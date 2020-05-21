@@ -42,7 +42,6 @@ public class ParkingRestTest extends AbstractRestTest {
         RestAssured.port = serverPort;
     }
 
-
     @Test
     public void testPlaceVehicle() {
         String licensePlate = "my-Number-Plate";
