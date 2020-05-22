@@ -1,6 +1,8 @@
-package org.myproject.parking.pricing;
+package org.myproject.parking.pricing.policy;
 
 import lombok.*;
+import org.myproject.parking.pricing.PolicyType;
+import org.myproject.parking.pricing.PricingPolicy;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;

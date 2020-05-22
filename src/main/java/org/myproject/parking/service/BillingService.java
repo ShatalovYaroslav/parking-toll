@@ -1,7 +1,7 @@
 package org.myproject.parking.service;
 
 import org.myproject.parking.exception.WrongSpotRentException;
-import org.myproject.parking.model.Invoice;
+import org.myproject.parking.dto.Invoice;
 import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.SpotRent;
 import org.myproject.parking.pricing.PricingPolicy;

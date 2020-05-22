@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.myproject.parking.pricing.FixedPricePlusPolicy.FIXED_PRICE_PARAMETER;
+import static org.myproject.parking.pricing.policy.FixedPricePlusPolicy.FIXED_PRICE_PARAMETER;
 
 @Component
 public class ParkingLotStartupFixture {

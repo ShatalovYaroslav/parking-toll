@@ -1,7 +1,8 @@
-package org.myproject.parking.model;
+package org.myproject.parking.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.myproject.parking.model.SpotRent;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -35,7 +36,7 @@ public class Invoice {
         this.cost = cost;
     }
 
-    //should be unique Identifier for parking lot
+    //should generate the Invoice unique identifier for parking lot and license plate
     protected String generateInvoiceId(){
         return parkingLotId + "-" + licensePlate + "-"  + leavingTime.atZone(ZoneId.systemDefault()).toEpochSecond();
     }

@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.myproject.parking.IntegrationTestConfig;
 import org.myproject.parking.dto.ParkingLotMetadata;
 import org.myproject.parking.exception.SpotNotFoundException;
-import org.myproject.parking.model.Invoice;
+import org.myproject.parking.dto.Invoice;
 import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Sedan;

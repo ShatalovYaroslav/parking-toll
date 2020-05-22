@@ -2,7 +2,7 @@ package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
 import org.myproject.parking.exception.WrongSpotStateException;
-import org.myproject.parking.model.Invoice;
+import org.myproject.parking.dto.Invoice;
 import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Vehicle;

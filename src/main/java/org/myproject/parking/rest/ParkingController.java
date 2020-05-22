@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.myproject.parking.model.Invoice;
+import org.myproject.parking.dto.Invoice;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Vehicle;
 import org.myproject.parking.service.ParkingService;

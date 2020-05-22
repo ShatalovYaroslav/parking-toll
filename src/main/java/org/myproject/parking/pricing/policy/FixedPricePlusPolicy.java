@@ -1,8 +1,10 @@
-package org.myproject.parking.pricing;
+package org.myproject.parking.pricing.policy;
 
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.myproject.parking.exception.BadPolicyParametersException;
+import org.myproject.parking.pricing.PolicyType;
+import org.myproject.parking.pricing.PricingPolicy;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
