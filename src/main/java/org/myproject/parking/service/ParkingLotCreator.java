@@ -3,17 +3,18 @@ package org.myproject.parking.service;
 import lombok.extern.log4j.Log4j2;
 import org.myproject.parking.dto.ParkingLotMetadata;
 import org.myproject.parking.exception.AddParkingException;
+import org.myproject.parking.exception.BadPolicyParametersException;
 import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.pricing.PolicyType;
 import org.myproject.parking.pricing.PricingConfig;
-import org.myproject.parking.pricing.provider.DefaultPriceConfigProvider;
 import org.myproject.parking.pricing.provider.PricingConfigProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,8 @@ public class ParkingLotCreator {
         PricingConfigProvider pricingConfigProvider = pricingConfigProviders.stream()
                 .filter(configProvider -> configProvider.isMyType(parkingLotMetadata.getPolicyType()))
                 .findFirst()
-                .orElse(new DefaultPriceConfigProvider());
+                .orElseThrow(() -> new BadPolicyParametersException("No pricing policy for type: " + parkingLotMetadata.getPolicyType() +
+                        ", the possible types are: " + EnumSet.allOf(PolicyType.class)));
 
         PricingConfig pricingConfig = pricingConfigProvider.validateAndGetPriceConfig(parkingLotMetadata.getPolicyType(),
                 parkingLotMetadata.getPricingParameters());
