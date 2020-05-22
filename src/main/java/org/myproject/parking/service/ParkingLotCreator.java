@@ -57,11 +57,9 @@ public class ParkingLotCreator {
     }
 
     protected void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PolicyType policyType) {
-        if (spotsNumberByType.size() != priceByVehicleType.size()) {
-            throw new AddParkingException("Size of Vehicle Types for spots does not match with the size of Vehicle Types for pricing");
+        if (spotsNumberByType.size() != priceByVehicleType.size() ||
+                    !spotsNumberByType.keySet().equals(priceByVehicleType.keySet())) {
+            throw new AddParkingException("The values of Vehicle Types for spots do not match with the Vehicle Types for pricing");
         }
-        //todo check if VehicleTypes corresponds between spots Vehicle Types for pricing
-
-        //todo check if pricingPolicyType exists implementation
     }
 }
