@@ -3,7 +3,7 @@ package org.myproject.parking.service;
 import lombok.extern.log4j.Log4j2;
 import org.myproject.parking.dto.ParkingLotMetadata;
 import org.myproject.parking.exception.AddParkingException;
-import org.myproject.parking.model.Parking;
+import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.pricing.PolicyType;
@@ -24,7 +24,7 @@ public class ParkingLotCreator {
     @Autowired
     private List<PricingConfigProvider> pricingConfigProviders;
 
-    public Parking createParking(ParkingLotMetadata parkingLotMetadata) {
+    public ParkingLot createParking(ParkingLotMetadata parkingLotMetadata) {
         //it will be called specific class according to policyType name
         PricingConfigProvider pricingConfigProvider = pricingConfigProviders.stream()
                 .filter(configProvider -> configProvider.isMyType(parkingLotMetadata.getPolicyType()))
@@ -40,7 +40,7 @@ public class ParkingLotCreator {
                 parkingLotMetadata.getName(), parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig);
     }
 
-    private Parking populateParkingWithSpots(Integer parkId, String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
+    private ParkingLot populateParkingWithSpots(Integer parkId, String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
         List<ParkingSpot> spots = new ArrayList<>();
 
         int i = 1;
@@ -51,7 +51,7 @@ public class ParkingLotCreator {
                 spots.add(new ParkingSpot(i++, ent.getKey(), price));
             }
         }
-        return new Parking(parkId, name, spots, pricingConfig);
+        return new ParkingLot(parkId, name, spots, pricingConfig);
     }
 
     protected void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PolicyType policyType) {

@@ -2,7 +2,7 @@ package org.myproject.parking.service;
 
 import org.myproject.parking.exception.WrongSpotRentException;
 import org.myproject.parking.model.Invoice;
-import org.myproject.parking.model.Parking;
+import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.SpotRent;
 import org.myproject.parking.pricing.PricingPolicy;
 import org.myproject.parking.pricing.PricingPolicyCatalog;
@@ -18,15 +18,15 @@ public class BillingService {
     @Autowired
     private PricingPolicyCatalog pricingPolicyCatalog;
 
-    public Invoice billVehicle(Parking parking, float price, final SpotRent spotRent) {
+    public Invoice billVehicle(ParkingLot parkingLot, float price, final SpotRent spotRent) {
         validateSpotRent(spotRent);
         PricingPolicy pricingPolicy = pricingPolicyCatalog.getPolicyByPolicyType(
-                parking.getPricingConfig().getPolicyType());
+                parkingLot.getPricingConfig().getPolicyType());
 
         int rentHours = getParkingDurationInHours(spotRent);
-        float cost = pricingPolicy.getPrice(rentHours, price, parking.getPricingConfig().getPricingParameters());
+        float cost = pricingPolicy.getPrice(rentHours, price, parkingLot.getPricingConfig().getPricingParameters());
 
-        return new Invoice(parking.getName(), spotRent, cost);
+        return new Invoice(parkingLot.getParkingLotId(), parkingLot.getName(), spotRent, cost);
     }
 
     public int getParkingDurationInHours(SpotRent spotRent) {

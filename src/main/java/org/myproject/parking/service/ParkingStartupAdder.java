@@ -2,7 +2,7 @@
 package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
-import org.myproject.parking.model.Parking;
+import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.util.ParkingLotStartupFixture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,8 +31,8 @@ public class ParkingStartupAdder {
             return;
         }
 
-        Parking parking = parkingLotService.createParking(parkingLotStartupFixture.createParking());
-        log.info("Created test parking: " + parking);
+        ParkingLot parkingLot = parkingLotService.createParking(parkingLotStartupFixture.createParking());
+        log.info("Created test parking lot: " + parkingLot);
     }
 
 

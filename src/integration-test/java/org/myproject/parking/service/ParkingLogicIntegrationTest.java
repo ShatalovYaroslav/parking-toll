@@ -9,7 +9,7 @@ import org.myproject.parking.IntegrationTestConfig;
 import org.myproject.parking.dto.ParkingLotMetadata;
 import org.myproject.parking.exception.SpotNotFoundException;
 import org.myproject.parking.model.Invoice;
-import org.myproject.parking.model.Parking;
+import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Sedan;
 import org.myproject.parking.model.vehicle.Vehicle;
@@ -39,29 +39,29 @@ public class ParkingLogicIntegrationTest {
     @Autowired
     ParkingLotStartupFixture parkingLotStartupFixture;
 
-    private Parking parking;
+    private ParkingLot parkingLot;
 
     @Before
     public void createParking() {
         ParkingLotMetadata parkingLotMetadata = parkingLotStartupFixture.createParking();
 
-        parking = parkingLotService.createParking(parkingLotMetadata);
+        parkingLot = parkingLotService.createParking(parkingLotMetadata);
 
-        assertThat(parking).isNotNull();
-        assertThat(parking.getName()).isEqualTo(parkingLotMetadata.getName());
-        assertThat(parking.getSpots().size()).isEqualTo(7);
+        assertThat(parkingLot).isNotNull();
+        assertThat(parkingLot.getName()).isEqualTo(parkingLotMetadata.getName());
+        assertThat(parkingLot.getSpots().size()).isEqualTo(7);
     }
 
     @After
     public void deleteParking() {
-        parkingLotService.removeParking(parking.getParkingId());
+        parkingLotService.removeParking(parkingLot.getParkingLotId());
     }
 
     @Test
     public void testParkVehicle() {
         LocalDateTime startParking = LocalDateTime.now();
         Vehicle testCar = new Sedan("license plate 1");
-        ParkingSpot parkedSpot = parkingService.parkVehicle(parking.getParkingId(), testCar);
+        ParkingSpot parkedSpot = parkingService.parkVehicle(parkingLot.getParkingLotId(), testCar);
 
         assertThat(parkedSpot.isFree()).isFalse();
         assertThat(parkedSpot.getSpotRent()).isNotNull();
@@ -72,7 +72,7 @@ public class ParkingLogicIntegrationTest {
     @Test(expected = SpotNotFoundException.class)
     public void tesVehicleLeavesParkingWithoutBeingParked() {
         Vehicle testCar = new Sedan("license plate 1");
-        Invoice invoice = parkingService.leaveParking(parking.getParkingId(), testCar.getLicensePlate());
+        Invoice invoice = parkingService.leaveParking(parkingLot.getParkingLotId(), testCar.getLicensePlate());
     }
 
     @Test
@@ -80,12 +80,12 @@ public class ParkingLogicIntegrationTest {
         LocalDateTime startParking = LocalDateTime.now();
         Vehicle testCar = new Sedan("license plate 1");
         //place vehicle first
-        ParkingSpot parkedSpot = parkingService.parkVehicle(parking.getParkingId(), testCar);
+        ParkingSpot parkedSpot = parkingService.parkVehicle(parkingLot.getParkingLotId(), testCar);
 
         //leave parking and get the Invoice
-        Invoice invoice = parkingService.leaveParking(parking.getParkingId(), testCar.getLicensePlate());
+        Invoice invoice = parkingService.leaveParking(parkingLot.getParkingLotId(), testCar.getLicensePlate());
         assertThat(invoice).isNotNull();
-        assertThat(invoice.getParkingName()).isEqualTo(parking.getName());
+        assertThat(invoice.getParkingName()).isEqualTo(parkingLot.getName());
         assertThat(invoice.getLicensePlate()).isEqualTo(testCar.getLicensePlate());
         assertThat(invoice.getArrivalTime()).isAtLeast(startParking);
         assertThat(invoice.getLeavingTime()).isNotNull();
@@ -93,11 +93,11 @@ public class ParkingLogicIntegrationTest {
         assertThat(invoice.getCost()).isEqualTo(FIXED_PRICE_POLICY);
 
         //check that parking has the same amount of spots
-        Parking parkingAfterLeave = parkingLotService.getParking(parking.getParkingId());
-        assertThat(parkingAfterLeave.getSpots().size()).isEqualTo(parking.getSpots().size());
+        ParkingLot parkingLotAfterLeave = parkingLotService.getParking(parkingLot.getParkingLotId());
+        assertThat(parkingLotAfterLeave.getSpots().size()).isEqualTo(parkingLot.getSpots().size());
 
         //check if spot is free
-        ParkingSpot spotFreed = parkingService.getParkingSpotByIDd(parking.getParkingId(), parkedSpot.getSpotId());
+        ParkingSpot spotFreed = parkingService.getParkingSpotByIDd(parkingLot.getParkingLotId(), parkedSpot.getSpotId());
         assertThat(spotFreed).isNotNull();
         assertThat(spotFreed.getSpotRent()).isNull();
         assertThat(spotFreed.isFree()).isTrue();

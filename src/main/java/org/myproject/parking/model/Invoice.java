@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 //DTO class to send to client for payment
 public class Invoice {
     Integer invoiceId;
+    Integer parkingLotId;
     String parkingName;
     String licensePlate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSZ")
@@ -24,7 +25,8 @@ public class Invoice {
 
     float cost;
 
-    public Invoice(String parkingName, SpotRent spotRent, float cost) {
+    public Invoice(Integer parkingLotId, String parkingName, SpotRent spotRent, float cost) {
+        this.parkingLotId = parkingLotId;
         this.parkingName = parkingName;
         licensePlate = spotRent.getVehicle().getLicensePlate();
         arrivalTime = spotRent.getArrivalTime();
