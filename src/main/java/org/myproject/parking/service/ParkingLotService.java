@@ -29,6 +29,14 @@ public class ParkingLotService {
                 .orElseThrow(() -> new ResourceNotFoundException("No parking found for id:" + parkingId));
         return parkingLot;
     }
+
+    public ParkingLot removeParkingLot(Integer parkingId) {
+        ParkingLot parkingLot = Optional.ofNullable(parkingMap.get(parkingId))
+                .orElseThrow(() -> new ResourceNotFoundException("No parking found for id:" + parkingId));
+        parkingMap.remove(parkingId);
+        return parkingLot;
+    }
+
     public List<ParkingLot> getAllParkingLots() {
         return new ArrayList<ParkingLot>(parkingMap.values());
     }

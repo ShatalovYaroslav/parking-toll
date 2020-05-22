@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * Implement CRUD methods for REST service
+ *  REST API for main parking logic
  */
 
 @RestController

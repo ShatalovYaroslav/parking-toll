@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @EqualsAndHashCode(of = "invoiceId")
 @Getter
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 
 //DTO class to send to client for payment
 public class Invoice {
-    Integer invoiceId;
+    String invoiceId;
     Integer parkingLotId;
     String parkingName;
     String licensePlate;
@@ -32,5 +33,10 @@ public class Invoice {
         arrivalTime = spotRent.getArrivalTime();
         leavingTime = spotRent.getLeavingTime();
         this.cost = cost;
+    }
+
+    //should be unique Identifier for parking lot
+    protected String generateInvoiceId(){
+        return parkingLotId + "-" + licensePlate + "-"  + leavingTime.atZone(ZoneId.systemDefault()).toEpochSecond();
     }
 }

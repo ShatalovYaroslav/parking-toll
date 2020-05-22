@@ -17,7 +17,7 @@ import java.util.List;
 
 
 /**
- * Implement CRUD methods for REST service
+ * CRUD methods for Parking Lot service
  */
 
 @RestController
@@ -59,5 +59,15 @@ public class ParkingLotController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(lots, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Remove parking Lot")
+    @RequestMapping(value = "{parkingLotId}", method = RequestMethod.DELETE)
+    public ResponseEntity<ParkingLot> deleteParkingLot(
+            @ApiParam(value = "The ID of existing parking Lot") @PathVariable("parkingLotId") Integer parkingLotId) {
+        logger.debug("Remove parking Lot with id: " + parkingLotId);
+
+        ParkingLot parkingLot = parkingLotService.removeParkingLot(parkingLotId);
+        return new ResponseEntity<>(parkingLot, HttpStatus.OK);
     }
 }

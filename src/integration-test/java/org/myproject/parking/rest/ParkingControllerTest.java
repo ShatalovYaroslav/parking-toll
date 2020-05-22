@@ -66,6 +66,25 @@ public class ParkingControllerTest extends AbstractRestTest {
                 .body("spotRent.leavingTime", nullValue())
                 .body("free", is(false));
 
+        int spotIdWithVehicle = response.then()
+                .extract()
+                .path("spotId");
+
+        //check that parking spot has a placed vehicle
+        given().body(testCar)
+                .header("Accept", ContentType.JSON.getAcceptHeader())
+                .header("Content-Type", ContentType.JSON)
+                .pathParam("parkingLotId", parkingTestId)
+                .pathParam("parkingSpotId", spotIdWithVehicle)
+                .when()
+                .get(REST_SERVICE_URI + "{parkingLotId}/spot/{parkingSpotId}")
+                .then()
+                .assertThat()
+                .statusCode(org.apache.http.HttpStatus.SC_OK)
+                .body("spotRent", notNullValue())
+                .body("spotRent.vehicle.licensePlate", is(testCar.getLicensePlate()))
+                .body("free", is(false));
+
     }
 
     @Test
@@ -75,15 +94,20 @@ public class ParkingControllerTest extends AbstractRestTest {
         Integer parkingTestId = 1;
 
         //first: place Vehicle in parking
-        given().body(testCar)
+        Response response = given().body(testCar)
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-Type", ContentType.JSON)
                 .pathParam("parkId", parkingTestId)
                 .when()
-                .post(REST_SERVICE_URI + "{parkId}/place")
-                .then()
+                .post(REST_SERVICE_URI + "{parkId}/place");
+
+        response.then()
                 .assertThat()
                 .statusCode(org.apache.http.HttpStatus.SC_OK);
+
+        int spotIdWithVehicle = response.then()
+                .extract()
+                .path("spotId");
 
         // Leave Parking and get Invoice
         given()
@@ -100,7 +124,44 @@ public class ParkingControllerTest extends AbstractRestTest {
                 .body("licensePlate", is(testCar.getLicensePlate()))
                 .body("arrivalTime", notNullValue())
                 .body("leavingTime", notNullValue())
+                .body("invoiceId", notNullValue())
                 .body("cost", is(FIXED_PRICE_POLICY));
+
+        //check this spot is free after vehicle left
+        given().body(testCar)
+                .header("Accept", ContentType.JSON.getAcceptHeader())
+                .header("Content-Type", ContentType.JSON)
+                .pathParam("parkingLotId", parkingTestId)
+                .pathParam("parkingSpotId", spotIdWithVehicle)
+                .when()
+                .get(REST_SERVICE_URI + "{parkingLotId}/spot/{parkingSpotId}")
+                .then()
+                .assertThat()
+                .statusCode(org.apache.http.HttpStatus.SC_OK)
+                .body("spotRent", nullValue())
+                .body("free", is(true));
+    }
+
+    @Test
+    public void testGetParkingSpot() {
+        String licensePlate = "my-Number-Plate";
+        Vehicle testCar = new BigElectricCar(licensePlate);
+
+        Integer parkingTestId = 1;
+        Integer parkingSpotId = 1;
+
+        given().body(testCar)
+                .header("Accept", ContentType.JSON.getAcceptHeader())
+                .header("Content-Type", ContentType.JSON)
+                .pathParam("parkingLotId", parkingTestId)
+                .pathParam("parkingSpotId", parkingSpotId)
+                .when()
+                .get(REST_SERVICE_URI + "{parkingLotId}/spot/{parkingSpotId}")
+                .then()
+                .assertThat()
+                .statusCode(org.apache.http.HttpStatus.SC_OK)
+                .body("spotRent", nullValue())
+                .body("free", is(true));
     }
 }
 
