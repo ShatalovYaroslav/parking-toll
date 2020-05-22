@@ -34,6 +34,7 @@ public class Invoice {
         arrivalTime = spotRent.getArrivalTime();
         leavingTime = spotRent.getLeavingTime();
         this.cost = cost;
+        invoiceId = generateInvoiceId();
     }
 
     //should generate the Invoice unique identifier for parking lot and license plate
