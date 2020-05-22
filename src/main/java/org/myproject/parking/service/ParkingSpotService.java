@@ -14,7 +14,7 @@ public class ParkingSpotService {
     public ParkingSpot findSpotById(ParkingLot parkingLot, int spotId) {
         Optional<ParkingSpot> requiredSpot = parkingLot.getSpots().stream()
                 .filter(spot -> spot.getSpotId() == spotId)
-                .filter(ParkingSpot::isFree).findFirst();
+                .findFirst();
 
         return requiredSpot.orElseThrow(SpotNotFoundException::new);
     }

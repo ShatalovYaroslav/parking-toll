@@ -6,7 +6,7 @@ import org.myproject.parking.pricing.PricingConfig;
 import java.util.List;
 
 
-@EqualsAndHashCode(of = "parkingId")
+@EqualsAndHashCode(of = "parkingLotId")
 @Getter
 @Setter
 @NoArgsConstructor

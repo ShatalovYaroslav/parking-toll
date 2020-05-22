@@ -31,7 +31,7 @@ public class ParkingStartupAdder {
             return;
         }
 
-        ParkingLot parkingLot = parkingLotService.createParking(parkingLotStartupFixture.createParking());
+        ParkingLot parkingLot = parkingLotService.createParkingLot(parkingLotStartupFixture.createParking());
         log.info("Created test parking lot: " + parkingLot);
     }
 

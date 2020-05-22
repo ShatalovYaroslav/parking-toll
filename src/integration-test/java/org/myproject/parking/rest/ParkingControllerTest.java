@@ -33,13 +33,13 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class})
 @WebIntegrationTest(randomPort = true)
-public class ParkingRestTest extends AbstractRestTest {
+public class ParkingControllerTest extends AbstractRestTest {
 
     private String REST_SERVICE_URI;
 
     @Before
     public void configureRestAssured() {
-        REST_SERVICE_URI = "http://localhost:" + serverPort + "/parking/";
+        REST_SERVICE_URI = "http://localhost:" + serverPort + "/parking/lot/";
         RestAssured.port = serverPort;
     }
 

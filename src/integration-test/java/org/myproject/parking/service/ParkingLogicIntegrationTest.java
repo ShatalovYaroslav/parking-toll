@@ -45,7 +45,7 @@ public class ParkingLogicIntegrationTest {
     public void createParking() {
         ParkingLotMetadata parkingLotMetadata = parkingLotStartupFixture.createParking();
 
-        parkingLot = parkingLotService.createParking(parkingLotMetadata);
+        parkingLot = parkingLotService.createParkingLot(parkingLotMetadata);
 
         assertThat(parkingLot).isNotNull();
         assertThat(parkingLot.getName()).isEqualTo(parkingLotMetadata.getName());
@@ -93,11 +93,11 @@ public class ParkingLogicIntegrationTest {
         assertThat(invoice.getCost()).isEqualTo(FIXED_PRICE_POLICY);
 
         //check that parking has the same amount of spots
-        ParkingLot parkingLotAfterLeave = parkingLotService.getParking(parkingLot.getParkingLotId());
+        ParkingLot parkingLotAfterLeave = parkingLotService.getParkingLot(parkingLot.getParkingLotId());
         assertThat(parkingLotAfterLeave.getSpots().size()).isEqualTo(parkingLot.getSpots().size());
 
         //check if spot is free
-        ParkingSpot spotFreed = parkingService.getParkingSpotByIDd(parkingLot.getParkingLotId(), parkedSpot.getSpotId());
+        ParkingSpot spotFreed = parkingService.getParkingSpotById(parkingLot.getParkingLotId(), parkedSpot.getSpotId());
         assertThat(spotFreed).isNotNull();
         assertThat(spotFreed.getSpotRent()).isNull();
         assertThat(spotFreed.isFree()).isTrue();

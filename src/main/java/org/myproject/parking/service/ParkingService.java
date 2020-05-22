@@ -27,15 +27,15 @@ public class ParkingService {
     @Autowired
     private ParkingLotService parkingLotService;
 
-    public ParkingSpot getParkingSpotByIDd(Integer parkingLotId, Integer spotId){
-        ParkingLot parkingLot = parkingLotService.getParking(parkingLotId);
+    public ParkingSpot getParkingSpotById(Integer parkingLotId, Integer spotId){
+        ParkingLot parkingLot = parkingLotService.getParkingLot(parkingLotId);
         return parkingSpotService.findSpotById(parkingLot, spotId);
     }
 
     public ParkingSpot parkVehicle(Integer parkingId, Vehicle vehicle) {
         plateValidator.validateLicensePlate(vehicle.getLicensePlate());
 
-        ParkingLot parkingLot = parkingLotService.getParking(parkingId);
+        ParkingLot parkingLot = parkingLotService.getParkingLot(parkingId);
 
         ParkingSpot freeSpot = parkingSpotService.getFreeSpotInParkingByType(parkingLot, vehicle.getType());
         if (!freeSpot.placeVehicle(vehicle))
@@ -46,7 +46,7 @@ public class ParkingService {
     }
 
     public Invoice leaveParking(Integer parkingLotId, String vehiclePlate) {
-        ParkingLot parkingLot = parkingLotService.getParking(parkingLotId);
+        ParkingLot parkingLot = parkingLotService.getParkingLot(parkingLotId);
 
         ParkingSpot spot = parkingSpotService.getSpotInParkingByVehiclePlate(parkingLot, vehiclePlate);
         spot.setupLeavingTime();
