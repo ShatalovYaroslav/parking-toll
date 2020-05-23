@@ -1,10 +1,11 @@
-package org.myproject.parking.pricing;
+package org.myproject.parking.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.type.SerializableToBlobType;
+import org.myproject.parking.pricing.PolicyType;
 
 import javax.persistence.*;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class PricingConfig {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     @JsonIgnore
-    private Long id;
+    private Integer id;
 
     @Column(name = "POLICY_TYPE")
     @Enumerated(EnumType.STRING)

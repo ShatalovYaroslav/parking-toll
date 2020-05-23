@@ -1,10 +1,11 @@
 package org.myproject.parking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.CascadeType;
 import org.myproject.parking.model.vehicle.Vehicle;
 import org.myproject.parking.model.vehicle.VehicleType;
 
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(callSuper = true, exclude = {"parkingLot"})
 @Data
 @Entity(name = "PARKINSPOT")
 @Table(name = "PARKINSPOT")
@@ -43,10 +44,10 @@ public class ParkingSpot {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
+    @JsonIgnore
     private ParkingLot parkingLot;
 
-    public ParkingSpot(int spotId, VehicleType vehicleType, float price) {
-        this.spotId = spotId;
+    public ParkingSpot(VehicleType vehicleType, float price) {
         this.vehicleType = vehicleType;
         this.price = price;
     }

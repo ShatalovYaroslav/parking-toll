@@ -3,12 +3,12 @@ package org.myproject.parking.model;
 import lombok.*;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.*;
-import org.myproject.parking.pricing.PricingConfig;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,9 +38,9 @@ public class ParkingLot {
             fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
-    private List<ParkingSpot> spots;
+    private List<ParkingSpot> spots = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne( cascade = { CascadeType.ALL })
     @JoinColumn(name="ID")
     private PricingConfig pricingConfig; //Pricing Policy depends on the certain implementation
 
@@ -48,5 +48,15 @@ public class ParkingLot {
         this.name = name;
         this.spots = spots;
         this.pricingConfig = pricingConfig;
+    }
+
+    public ParkingLot(String name, PricingConfig pricingConfig) {
+        this.name = name;
+        this.pricingConfig = pricingConfig;
+    }
+
+    public void addParkingSpot(ParkingSpot parkingSpot) {
+        this.spots.add(parkingSpot);
+        parkingSpot.setParkingLot(this);
     }
 }

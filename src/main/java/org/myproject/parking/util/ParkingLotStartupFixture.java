@@ -29,7 +29,7 @@ public class ParkingLotStartupFixture {
         priceByVehicleType.put(VehicleType.FIFTY_KW, 7.0f);
         priceByVehicleType.put(VehicleType.TWENTY_KW, 5.2f);
 
-        return new ParkingLotMetadata(parkingId, name,
+        return new ParkingLotMetadata(name,
                 pricingPolicyType, pricingParams, priceByVehicleType, spotsNumberByType);
     }
 }

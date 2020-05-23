@@ -54,7 +54,7 @@ public class ParkingLogicIntegrationTest {
 
     @After
     public void deleteParking() {
-        parkingLotService.removeParking(parkingLot.getParkingLotId());
+        parkingLotService.removeParkingLot(parkingLot.getParkingLotId());
     }
 
     @Test
