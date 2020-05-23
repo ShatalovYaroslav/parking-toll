@@ -27,13 +27,12 @@ public class ParkingSpotService {
     }
 
     public ParkingSpot getFreeSpotInParkingByType(ParkingLot parkingLot, VehicleType type) {
-        List<ParkingSpot> parkingSpotsByType = parkingSpotRepository.
-                findParkingSpotsByType(parkingLot.getParkingLotId(), type);
-
-        Optional<ParkingSpot> requiredSpot = parkingSpotsByType.stream()
-                .filter(ParkingSpot::isFree).findFirst();
-
-        return requiredSpot.orElseThrow(() -> new SpotNotFoundException(type));
+        List<ParkingSpot> freeSpotsForType  = parkingSpotRepository.
+                findFreeParkingSpotsByType(parkingLot.getParkingLotId(), type);
+        if(freeSpotsForType == null){
+            throw new SpotNotFoundException(type);
+        }
+        return freeSpotsForType.get(0);
     }
 
     public ParkingSpot getSpotInParkingByVehiclePlate(ParkingLot parkingLot, String plate) {
