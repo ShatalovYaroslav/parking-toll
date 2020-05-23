@@ -60,8 +60,7 @@ public class ParkingControllerTest extends AbstractRestTest {
         response.then()
                 .assertThat()
                 .statusCode(org.apache.http.HttpStatus.SC_OK)
-                .body("spotRent.vehicle.type", is(testCar.getType().toString()))
-                .body("spotRent.vehicle.licensePlate", is(testCar.getLicensePlate()))
+                .body("spotRent.vehiclePlate", is(testCar.getLicensePlate()))
                 .body("spotRent.arrivalTime", notNullValue())
                 .body("spotRent.leavingTime", nullValue())
                 .body("free", is(false));
@@ -82,7 +81,8 @@ public class ParkingControllerTest extends AbstractRestTest {
                 .assertThat()
                 .statusCode(org.apache.http.HttpStatus.SC_OK)
                 .body("spotRent", notNullValue())
-                .body("spotRent.vehicle.licensePlate", is(testCar.getLicensePlate()))
+                .body("spotRent.vehiclePlate", is(testCar.getLicensePlate()))
+                .body("spotRent.arrivalTime", notNullValue())
                 .body("free", is(false));
 
     }
