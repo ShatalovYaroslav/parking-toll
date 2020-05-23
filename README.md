@@ -45,6 +45,22 @@ The Pricing Policy Type corresponds to Pricing Policy implementation.
 Each Pricing Policy can have additional parameters values, that depends on Policy strategy implementation.
 For example for "FIXED_PLUS" Pricing Policy implementation it is required to provide "fixedPrice" parameter on creation.
 
+#### Example how to create the Parking Lot
+The REST API of service is communicating via JSON. You need to send the POST request with required JSON to next API endpoint:
+```
+http://localhost:8080/parking/lot/
+```
+The JSON example to create a Parking Lot is following: 
+```
+{
+  "name": "test-parking-lot",
+  "policyType": "FIXED_PLUS",
+  "priceByVehicleType": {"gasoline":1.4, "fifty_kw":3.7},
+  "pricingParameters": {"fixedPrice":9.99},
+  "spotsNumberByType": {"gasoline":2, "fifty_kw":1}
+}
+```
+
 ## Structure
 The service is organized with a complete RESTful API. The service follows MVC packaging structure and covered by tests.
 The service is based on Spring framework and can be started with Spring Boot.
