@@ -66,17 +66,21 @@ public class ParkingLotControllerTest extends AbstractRestTest {
         ParkingLotMetadata parkingLotMetadata = parkingLotStartupFixture.createParking();
 
         //add parking lot
-         given().body(parkingLotMetadata)
+        Response response = given().body(parkingLotMetadata)
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-Type", ContentType.JSON)
                 .when()
                 .post(REST_SERVICE_URI);
 
+        int parkingLotId = response.then()
+                .extract()
+                .path("parkingLotId");
+
         //get parking lot
         given()
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-Type", ContentType.JSON)
-                .pathParam("parkingLotId", parkingLotMetadata.getParkingId())
+                .pathParam("parkingLotId", parkingLotId)
                 .when()
                 .get(REST_SERVICE_URI + "{parkingLotId}/")
                 .then()
@@ -93,17 +97,21 @@ public class ParkingLotControllerTest extends AbstractRestTest {
         ParkingLotMetadata parkingLotMetadata = parkingLotStartupFixture.createParking();
 
         //add parking lot
-        given().body(parkingLotMetadata)
+        Response response = given().body(parkingLotMetadata)
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-Type", ContentType.JSON)
                 .when()
                 .post(REST_SERVICE_URI);
 
+        int parkingLotId = response.then()
+                .extract()
+                .path("parkingLotId");
+
         //get parking lot
         given()
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-Type", ContentType.JSON)
-                .pathParam("parkingLotId", parkingLotMetadata.getParkingId())
+                .pathParam("parkingLotId", parkingLotId)
                 .when()
                 .delete(REST_SERVICE_URI+ "{parkingLotId}/")
                 .then()
@@ -118,7 +126,7 @@ public class ParkingLotControllerTest extends AbstractRestTest {
         given()
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-Type", ContentType.JSON)
-                .pathParam("parkingLotId", parkingLotMetadata.getParkingId())
+                .pathParam("parkingLotId", parkingLotId)
                 .when()
                 .get(REST_SERVICE_URI+ "{parkingLotId}/")
                 .then()

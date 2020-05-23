@@ -4,7 +4,7 @@ package org.myproject.parking.pricing.provider;
 import lombok.extern.log4j.Log4j2;
 import org.myproject.parking.exception.BadPolicyParametersException;
 import org.myproject.parking.pricing.PolicyType;
-import org.myproject.parking.pricing.PricingConfig;
+import org.myproject.parking.model.PricingConfig;
 import org.myproject.parking.pricing.PricingPolicy;
 import org.myproject.parking.pricing.PricingPolicyCatalog;
 import org.springframework.beans.factory.annotation.Autowired;

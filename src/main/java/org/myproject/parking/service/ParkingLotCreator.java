@@ -6,14 +6,13 @@ import org.myproject.parking.exception.AddParkingException;
 import org.myproject.parking.exception.BadPolicyParametersException;
 import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.ParkingSpot;
+import org.myproject.parking.model.PricingConfig;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.pricing.PolicyType;
-import org.myproject.parking.pricing.PricingConfig;
 import org.myproject.parking.pricing.provider.PricingConfigProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -38,22 +37,21 @@ public class ParkingLotCreator {
 
         validateParameters(parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig.getPolicyType());
 
-        return populateParkingWithSpots(parkingLotMetadata.getParkingId(),
+        return populateParkingWithSpots(
                 parkingLotMetadata.getName(), parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig);
     }
 
-    private ParkingLot populateParkingWithSpots(Integer parkId, String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
-        List<ParkingSpot> spots = new ArrayList<>();
+    private ParkingLot populateParkingWithSpots(String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
+        ParkingLot parkingLot = new ParkingLot(name, pricingConfig);
 
-        int i = 1;
         for (Map.Entry<VehicleType, Integer> ent : spotsNumberByType.entrySet()) {
             for (int c = 0; c < ent.getValue(); c++) {
                 float price = priceByVehicleType.get(ent.getKey());
                 // spotId will be autoincrement in DB
-                spots.add(new ParkingSpot(i++, ent.getKey(), price));
+                parkingLot.addParkingSpot(new ParkingSpot(ent.getKey(), price));
             }
         }
-        return new ParkingLot(parkId, name, spots, pricingConfig);
+        return parkingLot;
     }
 
     protected void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PolicyType policyType) {
