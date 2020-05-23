@@ -10,9 +10,12 @@ import org.myproject.parking.util.PlateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Service("parkingService")
 @Log4j2
+@Transactional
 public class ParkingService {
 
     @Autowired
