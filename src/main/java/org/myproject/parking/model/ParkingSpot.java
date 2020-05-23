@@ -31,8 +31,9 @@ public class ParkingSpot {
     @Column(name = "SPOT_ID")
     private int spotId;
 
-    @OneToOne(mappedBy = "spot", orphanRemoval = true)
+    @OneToOne(orphanRemoval = true)
     @Cascade({CascadeType.ALL})
+    @JoinColumn(name="ID")
     private SpotRent spotRent; //corresponds to last rent operation, but as improvement can save a list of spot Rental transactions
 
     @Column(name = "VEHICLE_TYPE")
@@ -73,7 +74,7 @@ public class ParkingSpot {
             return false;
         }
         spotRent = new SpotRent();
-        spotRent.setVehicle(veh);
+        spotRent.setVehiclePlate(veh.getLicensePlate());
         spotRent.setArrivalTime(LocalDateTime.now());
         return true;
     }

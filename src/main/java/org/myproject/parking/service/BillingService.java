@@ -34,7 +34,7 @@ public class BillingService {
     }
 
     private void validateSpotRent(final SpotRent spotRent){
-        if(spotRent.getVehicle() == null){
+        if(spotRent.getVehiclePlate() == null){
             throw new WrongSpotRentException("There is no vehicle placed for this spot Rental: " + spotRent);
         }
         if(spotRent.getArrivalTime() == null || spotRent.getLeavingTime() == null){

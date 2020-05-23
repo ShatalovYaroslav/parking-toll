@@ -1,9 +1,9 @@
 
 package org.myproject.parking;
 
-import org.myproject.parking.pricing.policy.FixedPricePlusPolicy;
 import org.myproject.parking.pricing.PricingPolicy;
 import org.myproject.parking.pricing.PricingPolicyCatalog;
+import org.myproject.parking.pricing.policy.FixedPricePlusPolicy;
 import org.myproject.parking.pricing.policy.StandardPricingPolicy;
 import org.myproject.parking.pricing.provider.FixedPlusPriceConfigProvider;
 import org.myproject.parking.pricing.provider.PricingConfigProvider;
@@ -15,7 +15,11 @@ import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,17 @@ import java.util.List;
 public class IntegrationTestConfig {
 
     public static final float FIXED_PRICE_POLICY = 10f;
+
+    @Bean
+    public DataSource testDataSource() {
+        return createMemDataSource();
+    }
+
+    private DataSource createMemDataSource() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.HSQL).build();
+        return db;
+    }
 
     @Bean
     public ParkingService parkingService() {
