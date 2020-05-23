@@ -30,7 +30,7 @@ public class Invoice {
     public Invoice(Integer parkingLotId, String parkingName, SpotRent spotRent, float cost) {
         this.parkingLotId = parkingLotId;
         this.parkingName = parkingName;
-        licensePlate = spotRent.getVehicle().getLicensePlate();
+        licensePlate = spotRent.getVehiclePlate();
         arrivalTime = spotRent.getArrivalTime();
         leavingTime = spotRent.getLeavingTime();
         this.cost = cost;

@@ -29,14 +29,20 @@ public class ParkingLotService {
         return parkingLotSaved;
     }
 
-    public ParkingLot getParkingLot(Integer parkingId) {
+    public ParkingLot getParkingLotAndCheck(Integer parkingId) {
         ParkingLot parkingLot = Optional.ofNullable(parkingLotRepository.findOneByParkingLotId(parkingId))
                 .orElseThrow(() -> new ResourceNotFoundException("No parking found for id:" + parkingId));
         return parkingLot;
     }
 
+    public ParkingLot updateParkingLot(ParkingLot parkingLot) {
+        getParkingLotAndCheck(parkingLot.getParkingLotId());
+        parkingLotRepository.save(parkingLot);
+        return parkingLot;
+    }
+
     public ParkingLot removeParkingLot(Integer parkingId) {
-        ParkingLot parkingLot = getParkingLot(parkingId);
+        ParkingLot parkingLot = getParkingLotAndCheck(parkingId);
         parkingLotRepository.delete(parkingId);
         return parkingLot;
     }

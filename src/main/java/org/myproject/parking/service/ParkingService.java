@@ -28,25 +28,27 @@ public class ParkingService {
     private ParkingLotService parkingLotService;
 
     public ParkingSpot getParkingSpotById(Integer parkingLotId, Integer spotId){
-        ParkingLot parkingLot = parkingLotService.getParkingLot(parkingLotId);
+        ParkingLot parkingLot = parkingLotService.getParkingLotAndCheck(parkingLotId);
         return parkingSpotService.findSpotById(parkingLot, spotId);
     }
 
     public ParkingSpot parkVehicle(Integer parkingId, Vehicle vehicle) {
         plateValidator.validateLicensePlate(vehicle.getLicensePlate());
 
-        ParkingLot parkingLot = parkingLotService.getParkingLot(parkingId);
+        ParkingLot parkingLot = parkingLotService.getParkingLotAndCheck(parkingId);
 
-        ParkingSpot freeSpot = parkingSpotService.getFreeSpotInParkingByType(parkingLot, vehicle.getType());
-        if (!freeSpot.placeVehicle(vehicle))
-            throw new WrongSpotStateException(freeSpot.getSpotId());
-        log.info("The vehicle with plate: " + vehicle.getLicensePlate() + " was parked in spot: " + freeSpot);
+        ParkingSpot spotToParkVehicle = parkingSpotService.getFreeSpotInParkingByType(parkingLot, vehicle.getType());
+        if (!spotToParkVehicle.placeVehicle(vehicle))
+            throw new WrongSpotStateException(spotToParkVehicle.getSpotId());
+        log.info("The vehicle with plate: " + vehicle.getLicensePlate() + " was parked in spot: " + spotToParkVehicle);
         log.debug("Parking state after parked car: " + parkingLot);
-        return freeSpot;
+
+        parkingLotService.updateParkingLot(parkingLot);
+        return spotToParkVehicle;
     }
 
     public Invoice leaveParking(Integer parkingLotId, String vehiclePlate) {
-        ParkingLot parkingLot = parkingLotService.getParkingLot(parkingLotId);
+        ParkingLot parkingLot = parkingLotService.getParkingLotAndCheck(parkingLotId);
 
         ParkingSpot spot = parkingSpotService.getSpotInParkingByVehiclePlate(parkingLot, vehiclePlate);
         spot.setupLeavingTime();
@@ -61,6 +63,7 @@ public class ParkingService {
         log.info("The invoice was generated for vehicle with license plate: " + vehiclePlate + " invoice: " + invoice);
         log.debug("Parking state after car has left: " + parkingLot);
 
+        parkingLotService.updateParkingLot(parkingLot);
         return invoice;
     }
 

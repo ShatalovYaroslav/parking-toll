@@ -6,15 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.myproject.parking.IntegrationTestConfig;
+import org.myproject.parking.dto.Invoice;
 import org.myproject.parking.dto.ParkingLotMetadata;
 import org.myproject.parking.exception.SpotNotFoundException;
-import org.myproject.parking.dto.Invoice;
 import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.ParkingSpot;
 import org.myproject.parking.model.vehicle.Sedan;
 import org.myproject.parking.model.vehicle.Vehicle;
 import org.myproject.parking.util.ParkingLotStartupFixture;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,6 +29,7 @@ import static org.myproject.parking.IntegrationTestConfig.FIXED_PRICE_POLICY;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {IntegrationTestConfig.class})
+@EntityScan("org.ow2.proactive.cloud_watch.repository")
 public class ParkingLogicIntegrationTest {
 
     @Autowired
@@ -66,7 +68,7 @@ public class ParkingLogicIntegrationTest {
         assertThat(parkedSpot.isFree()).isFalse();
         assertThat(parkedSpot.getSpotRent()).isNotNull();
         assertThat(parkedSpot.getSpotRent().getArrivalTime()).isAtLeast(startParking);
-        assertThat(parkedSpot.getSpotRent().getVehicle()).isEqualTo(testCar);
+        assertThat(parkedSpot.getSpotRent().getVehiclePlate()).isEqualTo(testCar.getLicensePlate());
     }
 
     @Test(expected = SpotNotFoundException.class)
@@ -93,7 +95,7 @@ public class ParkingLogicIntegrationTest {
         assertThat(invoice.getCost()).isEqualTo(FIXED_PRICE_POLICY);
 
         //check that parking has the same amount of spots
-        ParkingLot parkingLotAfterLeave = parkingLotService.getParkingLot(parkingLot.getParkingLotId());
+        ParkingLot parkingLotAfterLeave = parkingLotService.getParkingLotAndCheck(parkingLot.getParkingLotId());
         assertThat(parkingLotAfterLeave.getSpots().size()).isEqualTo(parkingLot.getSpots().size());
 
         //check if spot is free

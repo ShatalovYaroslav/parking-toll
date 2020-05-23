@@ -46,7 +46,7 @@ public class ParkingLotController {
             @ApiParam(value = "The ID of existing parking Lot") @PathVariable("parkingLotId") Integer parkingLotId) {
         logger.debug("Get parking Lot with id: " + parkingLotId);
 
-        ParkingLot parkingLot = parkingLotService.getParkingLot(parkingLotId);
+        ParkingLot parkingLot = parkingLotService.getParkingLotAndCheck(parkingLotId);
         return new ResponseEntity<>(parkingLot, HttpStatus.OK);
     }
 
