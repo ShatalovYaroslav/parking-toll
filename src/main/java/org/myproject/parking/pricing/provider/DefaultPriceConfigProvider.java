@@ -24,7 +24,8 @@ public class DefaultPriceConfigProvider extends PricingConfigProvider {
 
     @Override
     protected PricingConfig getPriceConfig(String policyType, Map<String, String> parametersMap){
-        return new PricingConfig(PolicyType.valueOf(policyType), parametersMap);
+        return  PricingConfig.builder().policyType(PolicyType.valueOf(policyType))
+                    .pricingParameters(parametersMap).build();
     }
 
     protected Set<String> getRequiredParameters(String policyType){
