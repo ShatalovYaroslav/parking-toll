@@ -54,7 +54,9 @@ public class ParkingService {
         ParkingLot parkingLot = parkingLotService.getParkingLotAndCheck(parkingLotId);
 
         ParkingSpot spot = parkingSpotService.getSpotInParkingByVehiclePlate(parkingLot, vehiclePlate);
-        spot.setupLeavingTime();
+        if (!spot.setupLeavingTime())
+            throw new WrongSpotStateException("The spot '" + spot.getSpotId() +
+                    "' is in wrong state for corresponding vehicle with plate: " + vehiclePlate);
 
         log.info("The vehicle with plate: " + vehiclePlate + " is leaving from the parked spot: " + spot);
         log.debug("Parking state with leaving car: " + parkingLot);

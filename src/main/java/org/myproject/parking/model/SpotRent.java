@@ -8,13 +8,14 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Data
+@Builder
 @Entity(name = "SPOTRENT")
 @Table(name = "SPOTRENT")
 public class SpotRent {

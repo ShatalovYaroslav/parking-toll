@@ -57,8 +57,12 @@ public class ParkingSpot {
         return spotRent == null;
     }
 
-    public void setupLeavingTime() {
+    public boolean setupLeavingTime() {
+        if (isFree() || spotRent.getArrivalTime() == null) {
+            return false;
+        }
         spotRent.setLeavingTime(LocalDateTime.now());
+        return true;
     }
 
     public void freeSpot() {
