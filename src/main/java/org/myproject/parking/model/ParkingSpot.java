@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.myproject.parking.model.vehicle.Vehicle;
 import org.myproject.parking.model.vehicle.VehicleType;
 
@@ -22,6 +24,10 @@ import java.time.LocalDateTime;
 @Table(name = "PARKINGSPOT", uniqueConstraints = @UniqueConstraint(columnNames = { "LOT_ID", "SPOT_ID"}))
 public class ParkingSpot {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPOT_SEQUENCE")
+    @GenericGenerator(name = "SPOT_SEQUENCE", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {@org.hibernate.annotations.Parameter(name = "sequence_name", value = "SPOT_SEQUENCE"),
+            @Parameter(name = "initial_value", value = "1"),
+            @Parameter(name = "increment_size", value = "1")})
     @Column(name = "SPOT_ID")
     private Integer spotId; // Parking Spot ID is unique per Parking Lot, it belongs to
 
@@ -42,8 +48,7 @@ public class ParkingSpot {
     @JsonIgnore
     private ParkingLot parkingLot;
 
-    public ParkingSpot(Integer spotId, VehicleType vehicleType, float price) {
-        this.spotId = spotId;
+    public ParkingSpot(VehicleType vehicleType, float price) {
         this.vehicleType = vehicleType;
         this.price = price;
     }

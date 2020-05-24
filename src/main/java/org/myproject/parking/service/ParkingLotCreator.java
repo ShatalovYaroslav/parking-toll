@@ -44,12 +44,11 @@ public class ParkingLotCreator {
     private ParkingLot populateParkingWithSpots(String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
         ParkingLot parkingLot = new ParkingLot(name, pricingConfig);
 
-        int spotId = 1;
         for (Map.Entry<VehicleType, Integer> ent : spotsNumberByType.entrySet()) {
             for (int c = 0; c < ent.getValue(); c++) {
                 float price = priceByVehicleType.get(ent.getKey());
-                // internal control of spotId generation
-                parkingLot.addParkingSpot(new ParkingSpot(spotId++, ent.getKey(), price));
+                // spotId will be autoincrement in DB
+                parkingLot.addParkingSpot(new ParkingSpot(ent.getKey(), price));
             }
         }
         return parkingLot;
