@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString(callSuper = true, exclude = {"parkingLot"})
 @Data
-@Entity(name = "PARKINSPOT")
-@Table(name = "PARKINSPOT")
+@Entity(name = "PARKINGSPOT")
+@Table(name = "PARKINGSPOT")
 public class ParkingSpot {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPOT_SEQUENCE")
@@ -29,7 +29,7 @@ public class ParkingSpot {
             @Parameter(name = "initial_value", value = "1"),
             @Parameter(name = "increment_size", value = "1")})
     @Column(name = "SPOT_ID")
-    private int spotId;
+    private Integer spotId;
 
     @OneToOne(orphanRemoval = true)
     @Cascade({CascadeType.ALL})
