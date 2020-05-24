@@ -1,7 +1,7 @@
 package org.myproject.parking.service;
 
-import org.myproject.parking.exception.WrongSpotRentException;
 import org.myproject.parking.dto.Invoice;
+import org.myproject.parking.exception.WrongSpotRentException;
 import org.myproject.parking.model.ParkingLot;
 import org.myproject.parking.model.SpotRent;
 import org.myproject.parking.pricing.PricingPolicy;
@@ -18,7 +18,7 @@ public class BillingService {
     @Autowired
     private PricingPolicyCatalog pricingPolicyCatalog;
 
-    public Invoice billVehicle(ParkingLot parkingLot, float price, final SpotRent spotRent) {
+    public Invoice billVehicle(final ParkingLot parkingLot, float price, final SpotRent spotRent) {
         validateSpotRent(spotRent);
         PricingPolicy pricingPolicy = pricingPolicyCatalog.getPolicyByPolicyType(
                 parkingLot.getPricingConfig().getPolicyType());
@@ -29,7 +29,7 @@ public class BillingService {
         return new Invoice(parkingLot.getParkingLotId(), parkingLot.getName(), spotRent, cost);
     }
 
-    public int getParkingDurationInHours(SpotRent spotRent) {
+    protected int getParkingDurationInHours(SpotRent spotRent) {
         return (int) Duration.between(spotRent.getArrivalTime(), spotRent.getLeavingTime()).toHours();
     }
 

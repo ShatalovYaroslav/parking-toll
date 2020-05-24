@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @Data
 @Entity(name = "PARKINGLOT")
 @Table(name = "PARKINGLOT")

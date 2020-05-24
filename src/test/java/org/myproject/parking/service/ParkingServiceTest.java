@@ -124,6 +124,19 @@ public class ParkingServiceTest {
         assertEquals(invoice, mockedInvoice);
     }
 
+    @Test
+    public void testGetParkingSpotById(){
+        Integer parkingLotId = 1;
+        Integer spotId = 1;
+        ParkingLot parkingLot = new ParkingLot();
+        when(parkingLotService.getParkingLotAndCheck(parkingLotId))
+                .thenReturn(parkingLot);
+        parkingService.getParkingSpotById(parkingLotId, spotId);
+
+        verify(parkingLotService, times(1)).getParkingLotAndCheck(parkingLotId);
+        verify(parkingSpotService, times(1)).findSpotById(parkingLot, spotId);
+    }
+
     @Test(expected = WrongSpotStateException.class)
     public void testLeaveParkThrowExceptionForSpotWithoutVehicle() throws Exception {
         ParkingSpot mockedSpot = new ParkingSpot(1, null, VehicleType.GASOLINE, 3.6f,  null);
