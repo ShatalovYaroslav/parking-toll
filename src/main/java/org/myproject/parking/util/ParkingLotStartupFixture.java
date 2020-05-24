@@ -13,7 +13,6 @@ import static org.myproject.parking.pricing.policy.FixedPricePlusPolicy.FIXED_PR
 @Component
 public class ParkingLotStartupFixture {
     public ParkingLotMetadata createParking(){
-        Integer parkingId = 1;
         String name = "Test parking";
         Map<VehicleType, Integer> spotsNumberByType = new HashMap<>();
         Map<VehicleType, Float> priceByVehicleType = new HashMap<>();

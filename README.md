@@ -18,16 +18,17 @@ When the Vehicle leaves Parking Lot: the parking service marks the parking slot 
 
 ### Description of Parking Lot
 The Parking Lot should be created with certain Pricing Policy. The new Parking Lot can be added with REST Api. 
-To create a new Parking Lot it should be provided: 
-- key-values Map for Spot prices for Vehicle Type (each Vehicle Type can have different price) 
-- key-values Map for amount of Spots for each Vehicle Type.
-
-<br> By default on service startup the testing Parking Lot will be created. You can disable this option by changing in "applications.properties" file the value to 'create.testing.parking=false'
+The Parking Lot can have different prices for Parking Spots according to Spot's Vehicle Type.
 <br>The service allows to place the vehicle only in existing Parking Lots. The service API allows to get Parking Lots ID.
 The Parking Lot ID should be provided during the vehicle parking to place a vehicle into a specific Parking Lot.
 
+#### Creation of a Test Parking Lot on service startup
+<br> By default on the service startup the testing Parking Lot will be created. A user can disable this option by changing it in "applications.properties" file  with next value: 'create.testing.parking=false'.
+This option is only for testing purpose (to make easier the verification), please change the parameter to 'false' value.
+WARNING: The parking lot data is persisted in DB. If the property value is 'create.testing.parking=true', every time when the service starts it will be created the new test parking lot.
+
 ### Description of Parking Spot
-A Parking Lot contains multiple parking slots of different types. The Parking Service support 3 types of Parking Spots:
+A Parking Lot contains multiple parking slots of different types. The Parking Service supports 3 types of Parking Spots:
 - the standard parking slots for sedan cars (gasoline-powered) 
 - parking slots with 20kw power supply for electric cars
 - parking slots with 50kw power supply for electric cars
@@ -45,7 +46,11 @@ The Pricing Policy Type corresponds to Pricing Policy implementation.
 Each Pricing Policy can have additional parameters values, that depends on Policy strategy implementation.
 For example for "FIXED_PLUS" Pricing Policy implementation it is required to provide "fixedPrice" parameter on creation.
 
-#### Example how to create the Parking Lot
+#### How to create the Parking Lot
+To create a new Parking Lot it should be provided: 
+- key-values Map for Spot prices for Vehicle Type (each Vehicle Type can have different price) 
+- key-values Map for amount of Spots for each Vehicle Type.
+
 The REST API of service is communicating via JSON. You need to send the POST request with required JSON to next API endpoint:
 ```
 http://localhost:8080/parking/lot/
@@ -60,6 +65,12 @@ The JSON example to create a Parking Lot is following:
   "spotsNumberByType": {"gasoline":2, "fifty_kw":1}
 }
 ```
+
+## Data persistence in DB
+The detailed information about Parking Lots and Parking Spots are persisted in DB. By default it is used the automatically created HSQL DB.
+<br>A user of the micro-service can configure to use the other existing DB by changing the Data source properties in the "applications.properties" file.
+<br> The default configured HSQL DB will be created in temp folder of OS (according to "java.io.tmpdir"). The DB files will be stored inside 'data/parking/' folder.
+<br> A user can control the path folder for default DB with setup a 'parking.home' system property.
 
 ## Structure
 The service is organized with a complete RESTful API. The service follows MVC packaging structure and covered by tests.
