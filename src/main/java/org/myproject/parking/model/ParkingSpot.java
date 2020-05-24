@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true, exclude = {"parkingLot"})
 @Data
 @Entity(name = "PARKINGSPOT")
-@Table(name = "PARKINGSPOT")
+@Table(name = "PARKINGSPOT", uniqueConstraints = @UniqueConstraint(columnNames = { "LOT_ID", "SPOT_ID"}))
 public class ParkingSpot {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPOT_SEQUENCE")
@@ -29,7 +29,7 @@ public class ParkingSpot {
             @Parameter(name = "initial_value", value = "1"),
             @Parameter(name = "increment_size", value = "1")})
     @Column(name = "SPOT_ID")
-    private Integer spotId;
+    private Integer spotId; // Parking Spot ID is unique per Parking Lot, it belongs to
 
     @OneToOne(orphanRemoval = true)
     @Cascade({CascadeType.ALL})
