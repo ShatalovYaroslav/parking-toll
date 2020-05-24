@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder
-@Data
 @Entity(name = "PARKINGLOT")
 @Table(name = "PARKINGLOT")
 public class ParkingLot {

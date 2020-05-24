@@ -17,7 +17,6 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 @ToString
-@Data
 @Entity(name = "POLICYCONFIG")
 @Table(name = "POLICYCONFIG")
 public class PricingConfig {

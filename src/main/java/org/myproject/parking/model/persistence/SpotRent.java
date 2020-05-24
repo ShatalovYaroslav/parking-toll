@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Data
 @Builder
 @Entity(name = "SPOTRENT")
 @Table(name = "SPOTRENT")

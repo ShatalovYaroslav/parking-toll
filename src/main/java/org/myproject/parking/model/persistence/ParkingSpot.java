@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true, exclude = {"parkingLot"})
-@Data
 @Entity(name = "PARKINGSPOT")
 @Table(name = "PARKINGSPOT", uniqueConstraints = @UniqueConstraint(columnNames = { "LOT_ID", "SPOT_ID"}))
 public class ParkingSpot {

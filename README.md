@@ -1,5 +1,5 @@
 # Parking Toll Library
-Parking Toll Library implemented in Java using Spring exposing RESTful API
+Parking Toll Library implemented in Java using Spring exposing REST API
 
 ## Purpose
 
