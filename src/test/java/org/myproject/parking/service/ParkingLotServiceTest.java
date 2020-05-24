@@ -25,13 +25,6 @@ public class ParkingLotServiceTest {
     @Mock
     ParkingLotRepository parkingLotRepository;
 
-    public ParkingLot createParkingLot(ParkingLotMetadata parkingLotMetadata) {
-        ParkingLot parkingLot = parkingLotCreator.createParking(parkingLotMetadata);
-
-        ParkingLot parkingLotSaved = parkingLotRepository.save(parkingLot);
-        return parkingLotSaved;
-    }
-
     @Test
     public void testCreateParkingLot() {
         ParkingLotMetadata parkingLotMetadata = new ParkingLotMetadata();
