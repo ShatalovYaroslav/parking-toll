@@ -1,6 +1,5 @@
 package org.myproject.parking.pricing;
 
-import org.myproject.parking.pricing.policy.StandardPricingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +29,7 @@ public class PricingPolicyCatalog {
     }
 
     public PricingPolicy getPolicyByPolicyType(PolicyType PolicyType) {
-        return pricingPolicies.getOrDefault(PolicyType, new StandardPricingPolicy());
+        return pricingPolicies.get(PolicyType);
     }
 
     public PricingPolicy getPolicyByPolicyTypeAsString(String policyTypeStr) {
