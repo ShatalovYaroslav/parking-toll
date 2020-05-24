@@ -21,8 +21,12 @@ import java.util.Map;
 @Log4j2
 public class ParkingLotCreator {
 
-    @Autowired
     private List<PricingConfigProvider> pricingConfigProviders;
+
+    @Autowired
+    public ParkingLotCreator(List<PricingConfigProvider> pricingConfigProviders) {
+        this.pricingConfigProviders = pricingConfigProviders;
+    }
 
     public ParkingLot createParking(ParkingLotMetadata parkingLotMetadata) {
         //it will be called specific class according to policyType name
@@ -35,7 +39,7 @@ public class ParkingLotCreator {
         PricingConfig pricingConfig = pricingConfigProvider.validateAndGetPriceConfig(parkingLotMetadata.getPolicyType(),
                 parkingLotMetadata.getPricingParameters());
 
-        validateParameters(parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig.getPolicyType());
+        validateParameters(parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType());
 
         return populateParkingWithSpots(
                 parkingLotMetadata.getName(), parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig);
@@ -54,7 +58,7 @@ public class ParkingLotCreator {
         return parkingLot;
     }
 
-    protected void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PolicyType policyType) {
+    protected void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType) {
         if (spotsNumberByType.size() != priceByVehicleType.size() ||
                     !spotsNumberByType.keySet().equals(priceByVehicleType.keySet())) {
             throw new AddParkingException("The values of Vehicle Types for spots do not match with the Vehicle Types for pricing");

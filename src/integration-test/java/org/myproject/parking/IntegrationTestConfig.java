@@ -5,6 +5,7 @@ import org.myproject.parking.pricing.PricingPolicy;
 import org.myproject.parking.pricing.PricingPolicyCatalog;
 import org.myproject.parking.pricing.policy.FixedPricePlusPolicy;
 import org.myproject.parking.pricing.policy.StandardPricingPolicy;
+import org.myproject.parking.pricing.provider.DefaultPriceConfigProvider;
 import org.myproject.parking.pricing.provider.FixedPlusPriceConfigProvider;
 import org.myproject.parking.pricing.provider.PricingConfigProvider;
 import org.myproject.parking.service.*;
@@ -83,7 +84,10 @@ public class IntegrationTestConfig {
 
     @Bean
     public ParkingLotCreator parkingLotCreator() {
-        return new ParkingLotCreator();
+        List<PricingConfigProvider> pricingConfigProviders = new ArrayList<>();
+        pricingConfigProviders.add(new DefaultPriceConfigProvider());
+        pricingConfigProviders.add(new FixedPlusPriceConfigProvider());
+        return new ParkingLotCreator(pricingConfigProviders);
     }
 
     @Bean

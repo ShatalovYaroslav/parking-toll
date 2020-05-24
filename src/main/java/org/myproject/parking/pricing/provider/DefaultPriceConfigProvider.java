@@ -1,10 +1,11 @@
 
 package org.myproject.parking.pricing.provider;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.myproject.parking.exception.BadPolicyParametersException;
-import org.myproject.parking.pricing.PolicyType;
 import org.myproject.parking.model.PricingConfig;
+import org.myproject.parking.pricing.PolicyType;
 import org.myproject.parking.pricing.PricingPolicy;
 import org.myproject.parking.pricing.PricingPolicyCatalog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,15 @@ import java.util.Set;
 
 @Log4j2
 @Component
+@NoArgsConstructor
 public class DefaultPriceConfigProvider extends PricingConfigProvider {
 
+    protected PricingPolicyCatalog pricingPolicyCatalog;
+
     @Autowired
-    private PricingPolicyCatalog pricingPolicyCatalog;
+    public DefaultPriceConfigProvider(PricingPolicyCatalog pricingPolicyCatalog) {
+        this.pricingPolicyCatalog = pricingPolicyCatalog;
+    }
 
     @Override
     protected PricingConfig getPriceConfig(String policyType, Map<String, String> parametersMap){
