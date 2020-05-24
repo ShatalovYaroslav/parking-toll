@@ -35,7 +35,7 @@ public class ParkingLot {
     private String name;        //help to find and identify parking
 
     @OneToMany(mappedBy = "parkingLot",
-            cascade = { CascadeType.ALL }, orphanRemoval = true)
+            fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     private List<ParkingSpot> spots = new ArrayList<>();
