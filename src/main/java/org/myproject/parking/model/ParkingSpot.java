@@ -44,7 +44,7 @@ public class ParkingSpot {
     private float price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "LOT_ID", referencedColumnName = "LOT_ID")
     @JsonIgnore
     private ParkingLot parkingLot;
 
