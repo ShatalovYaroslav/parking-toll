@@ -111,10 +111,10 @@ public class Application extends WebMvcConfigurerAdapter {
 
     private String getDatabaseDirectory() {
         String projectHome = System.getProperty("parking.home");
+        String parkingDataFolder = "data" + File.separator + "parking" + File.separator + "park";
         if (projectHome == null) {
-            return System.getProperty("java.io.tmpdir") + File.separator + "parking";
+            return System.getProperty("java.io.tmpdir") + parkingDataFolder;
         }
-        return projectHome + File.separator + "data" + File.separator + "park" +
-                File.separator + "sv";
+        return projectHome + parkingDataFolder;
     }
 }
