@@ -2,7 +2,7 @@
 package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
-import org.myproject.parking.model.ParkingLot;
+import org.myproject.parking.model.persistence.ParkingLot;
 import org.myproject.parking.util.ParkingLotStartupFixture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

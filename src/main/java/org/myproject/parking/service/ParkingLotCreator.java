@@ -1,12 +1,12 @@
 package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
-import org.myproject.parking.dto.ParkingLotMetadata;
+import org.myproject.parking.model.ParkingLotMetadata;
 import org.myproject.parking.exception.AddParkingException;
 import org.myproject.parking.exception.BadPolicyParametersException;
-import org.myproject.parking.model.ParkingLot;
-import org.myproject.parking.model.ParkingSpot;
-import org.myproject.parking.model.PricingConfig;
+import org.myproject.parking.model.persistence.ParkingLot;
+import org.myproject.parking.model.persistence.ParkingSpot;
+import org.myproject.parking.model.persistence.PricingConfig;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.pricing.PolicyType;
 import org.myproject.parking.pricing.provider.PricingConfigProvider;

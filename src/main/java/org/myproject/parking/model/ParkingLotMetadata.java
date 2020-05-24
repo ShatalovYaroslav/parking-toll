@@ -1,4 +1,4 @@
-package org.myproject.parking.dto;
+package org.myproject.parking.model;
 
 import lombok.*;
 import org.myproject.parking.model.vehicle.VehicleType;

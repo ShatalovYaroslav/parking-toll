@@ -1,4 +1,4 @@
-package org.myproject.parking.model;
+package org.myproject.parking.model.persistence;
 
 import lombok.*;
 import org.hibernate.annotations.Parameter;

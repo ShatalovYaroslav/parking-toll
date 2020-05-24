@@ -2,9 +2,9 @@ package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
 import org.myproject.parking.exception.WrongSpotStateException;
-import org.myproject.parking.dto.Invoice;
-import org.myproject.parking.model.ParkingLot;
-import org.myproject.parking.model.ParkingSpot;
+import org.myproject.parking.model.Invoice;
+import org.myproject.parking.model.persistence.ParkingLot;
+import org.myproject.parking.model.persistence.ParkingSpot;
 import org.myproject.parking.model.vehicle.Vehicle;
 import org.myproject.parking.util.PlateValidator;
 import org.springframework.beans.factory.annotation.Autowired;

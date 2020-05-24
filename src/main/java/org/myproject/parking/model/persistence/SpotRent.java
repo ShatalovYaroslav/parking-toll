@@ -1,4 +1,4 @@
-package org.myproject.parking.model;
+package org.myproject.parking.model.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

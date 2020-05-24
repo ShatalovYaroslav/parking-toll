@@ -7,8 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.myproject.parking.exception.SpotNotFoundException;
-import org.myproject.parking.model.ParkingLot;
-import org.myproject.parking.model.ParkingSpot;
+import org.myproject.parking.model.persistence.ParkingLot;
+import org.myproject.parking.model.persistence.ParkingSpot;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.repository.ParkingSpotRepository;
 

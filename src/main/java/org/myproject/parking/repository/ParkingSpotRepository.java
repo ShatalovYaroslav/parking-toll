@@ -1,7 +1,7 @@
 
 package org.myproject.parking.repository;
 
-import org.myproject.parking.model.ParkingSpot;
+import org.myproject.parking.model.persistence.ParkingSpot;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

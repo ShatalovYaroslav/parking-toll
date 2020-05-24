@@ -1,8 +1,8 @@
-package org.myproject.parking.dto;
+package org.myproject.parking.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.myproject.parking.model.SpotRent;
+import org.myproject.parking.model.persistence.SpotRent;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

@@ -6,9 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.myproject.parking.dto.ParkingLotMetadata;
+import org.myproject.parking.model.ParkingLotMetadata;
 import org.myproject.parking.exception.ResourceNotFoundException;
-import org.myproject.parking.model.ParkingLot;
+import org.myproject.parking.model.persistence.ParkingLot;
 import org.myproject.parking.repository.ParkingLotRepository;
 
 import static org.mockito.Mockito.*;

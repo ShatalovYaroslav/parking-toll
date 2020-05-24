@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.myproject.parking.Application;
-import org.myproject.parking.dto.ParkingLotMetadata;
+import org.myproject.parking.model.ParkingLotMetadata;
 import org.myproject.parking.pricing.PolicyType;
 import org.myproject.parking.util.ParkingLotStartupFixture;
 import org.springframework.beans.factory.annotation.Autowired;

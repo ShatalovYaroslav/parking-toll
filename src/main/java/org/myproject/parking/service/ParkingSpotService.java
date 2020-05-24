@@ -1,8 +1,8 @@
 package org.myproject.parking.service;
 
 import org.myproject.parking.exception.SpotNotFoundException;
-import org.myproject.parking.model.ParkingLot;
-import org.myproject.parking.model.ParkingSpot;
+import org.myproject.parking.model.persistence.ParkingLot;
+import org.myproject.parking.model.persistence.ParkingSpot;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.repository.ParkingSpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;

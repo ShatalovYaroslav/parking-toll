@@ -1,6 +1,6 @@
 package org.myproject.parking.util;
 
-import org.myproject.parking.dto.ParkingLotMetadata;
+import org.myproject.parking.model.ParkingLotMetadata;
 import org.myproject.parking.model.vehicle.VehicleType;
 import org.myproject.parking.pricing.PolicyType;
 import org.springframework.stereotype.Component;

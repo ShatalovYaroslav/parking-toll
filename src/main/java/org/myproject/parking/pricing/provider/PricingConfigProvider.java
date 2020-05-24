@@ -3,7 +3,7 @@ package org.myproject.parking.pricing.provider;
 
 
 import org.myproject.parking.exception.BadPolicyParametersException;
-import org.myproject.parking.model.PricingConfig;
+import org.myproject.parking.model.persistence.PricingConfig;
 
 import java.util.Map;
 import java.util.Set;
