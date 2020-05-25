@@ -35,13 +35,13 @@ public class ParkingLotCreator {
         PricingConfig pricingConfig = pricingConfigProvider.validateAndGetPriceConfig(parkingLotMetadata.getPolicyType(),
                 parkingLotMetadata.getPricingParameters());
 
-        validateParameters(parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig.getPolicyType());
+        validateParameters(parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType());
 
         return populateParkingWithSpots(
                 parkingLotMetadata.getName(), parkingLotMetadata.getSpotsNumberByType(), parkingLotMetadata.getPriceByVehicleType(), pricingConfig);
     }
 
-    private ParkingLot populateParkingWithSpots(String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
+    protected ParkingLot populateParkingWithSpots(String name, Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PricingConfig pricingConfig) {
         ParkingLot parkingLot = new ParkingLot(name, pricingConfig);
 
         for (Map.Entry<VehicleType, Integer> ent : spotsNumberByType.entrySet()) {
@@ -54,8 +54,9 @@ public class ParkingLotCreator {
         return parkingLot;
     }
 
-    protected void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType, PolicyType policyType) {
-        if (spotsNumberByType.size() != priceByVehicleType.size() ||
+    protected void validateParameters(Map<VehicleType, Integer> spotsNumberByType, Map<VehicleType, Float> priceByVehicleType) {
+        if (spotsNumberByType == null || priceByVehicleType == null ||
+                spotsNumberByType.size() != priceByVehicleType.size() ||
                     !spotsNumberByType.keySet().equals(priceByVehicleType.keySet())) {
             throw new AddParkingException("The values of Vehicle Types for spots do not match with the Vehicle Types for pricing");
         }

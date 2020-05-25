@@ -19,6 +19,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashMap;
+
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -59,6 +61,41 @@ public class ParkingLotControllerTest extends AbstractRestTest {
                 .body("pricingConfig.policyType", is(PolicyType.FIXED_PLUS.toString()))
                 .body("spots", hasSize(7))
                 .body("spots[0].free", is(true));
+    }
+
+    @Test
+    public void createParkingLotWrongPriceParametersException() {
+        ParkingLotMetadata parkingLotMetadata = parkingLotStartupFixture.createParking();
+        parkingLotMetadata.setPricingParameters(new HashMap<>());
+
+        Response response = given().body(parkingLotMetadata)
+                .header("Accept", ContentType.JSON.getAcceptHeader())
+                .header("Content-Type", ContentType.JSON)
+                .when()
+                .post(REST_SERVICE_URI);
+
+        //check if the special pricing parameters are not present for PolicyType.FIXED_PLUS
+        // it should be returned the response with exception
+        response.then()
+                .assertThat()
+                .statusCode(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    }
+
+    @Test
+    public void createParkingLotWrongPricePolicyTypeParametersException() {
+        ParkingLotMetadata parkingLotMetadata = parkingLotStartupFixture.createParking();
+        parkingLotMetadata.setPolicyType("WrongPricePolicyType");
+
+        Response response = given().body(parkingLotMetadata)
+                .header("Accept", ContentType.JSON.getAcceptHeader())
+                .header("Content-Type", ContentType.JSON)
+                .when()
+                .post(REST_SERVICE_URI);
+
+        //check if the PolicyType has no Price Policy implementation it should be returned the response with exception
+        response.then()
+                .assertThat()
+                .statusCode(HttpStatus.SC_UNPROCESSABLE_ENTITY);
     }
 
     @Test
