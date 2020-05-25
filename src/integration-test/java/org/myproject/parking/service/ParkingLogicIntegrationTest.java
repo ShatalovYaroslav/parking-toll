@@ -111,7 +111,7 @@ public class ParkingLogicIntegrationTest {
     @Test(expected = SpotNotFoundException.class)
     public void tesVehicleLeavesParkingWithoutBeingParked() {
         Vehicle testCar = new Sedan("license plate 1");
-        Invoice invoice = parkingService.leaveParking(parkingLot.getParkingLotId(), testCar.getLicensePlate());
+        Invoice invoice = parkingService.leaveParking(parkingLot.getParkingLotId(), testCar);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class ParkingLogicIntegrationTest {
         ParkingSpot parkedSpot = parkingService.parkVehicle(parkingLot.getParkingLotId(), testCar);
 
         //leave parking and get the Invoice
-        Invoice invoice = parkingService.leaveParking(parkingLot.getParkingLotId(), testCar.getLicensePlate());
+        Invoice invoice = parkingService.leaveParking(parkingLot.getParkingLotId(), testCar);
         assertThat(invoice).isNotNull();
         assertThat(invoice.getParkingName()).isEqualTo(parkingLot.getName());
         assertThat(invoice.getLicensePlate()).isEqualTo(testCar.getLicensePlate());

@@ -1,6 +1,7 @@
 package org.myproject.parking.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.myproject.parking.exception.UnprocessableEntityException;
 import org.myproject.parking.exception.WrongSpotStateException;
 import org.myproject.parking.model.Invoice;
 import org.myproject.parking.model.persistence.ParkingLot;
@@ -50,10 +51,16 @@ public class ParkingService {
         return spotToParkVehicle;
     }
 
-    public Invoice leaveParking(Integer parkingLotId, String vehiclePlate) {
+    public Invoice leaveParking(Integer parkingLotId, Vehicle vehicle) {
+        String vehiclePlate = vehicle.getLicensePlate();
         ParkingLot parkingLot = parkingLotService.getParkingLotAndCheck(parkingLotId);
 
         ParkingSpot spot = parkingSpotService.getSpotInParkingByVehiclePlate(parkingLot, vehiclePlate);
+
+        if (!spot.hasCorrectType(vehicle))
+            throw new UnprocessableEntityException("The spot type'" + spot.getVehicleType() +
+                    "' does not match with provided vehicle type: " + vehicle.getType());
+
         if (!spot.setupLeavingTime())
             throw new WrongSpotStateException("The spot '" + spot.getSpotId() +
                     "' is in wrong state for corresponding vehicle with plate: " + vehiclePlate);

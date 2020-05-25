@@ -8,15 +8,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.myproject.parking.model.Invoice;
+import org.myproject.parking.exception.UnprocessableEntityException;
 import org.myproject.parking.exception.WrongSpotStateException;
+import org.myproject.parking.model.Invoice;
 import org.myproject.parking.model.persistence.ParkingLot;
 import org.myproject.parking.model.persistence.ParkingSpot;
 import org.myproject.parking.model.persistence.SpotRent;
-import org.myproject.parking.model.vehicle.BigElectricCar;
-import org.myproject.parking.model.vehicle.Sedan;
-import org.myproject.parking.model.vehicle.Vehicle;
-import org.myproject.parking.model.vehicle.VehicleType;
+import org.myproject.parking.model.vehicle.*;
 import org.myproject.parking.util.PlateValidator;
 
 import java.time.LocalDateTime;
@@ -107,7 +105,7 @@ public class ParkingServiceTest {
         when(billingService.billVehicle(mockedLot, mockedSpot.getPrice(), spotRent))
                 .thenReturn(mockedInvoice);
 
-        Invoice invoice = parkingService.leaveParking(parkingId, plate);
+        Invoice invoice = parkingService.leaveParking(parkingId, vehicle);
 
         InOrder inOrder = Mockito.inOrder(
                 parkingLotService,
@@ -143,6 +141,16 @@ public class ParkingServiceTest {
         when(parkingSpotService.getSpotInParkingByVehiclePlate(any(ParkingLot.class), anyString()))
                 .thenReturn(mockedSpot);
 
-        parkingService.leaveParking(1, "some plate");
+        parkingService.leaveParking(1, new Sedan());
+    }
+
+    @Test(expected = UnprocessableEntityException.class)
+    public void testLeaveParkThrowExceptionForProvidedVehicleWrongType() throws Exception {
+        SpotRent spotRent = new SpotRent();
+        ParkingSpot mockedSpot = new ParkingSpot(1, spotRent, VehicleType.GASOLINE, 3.6f,  null);
+        when(parkingSpotService.getSpotInParkingByVehiclePlate(any(ParkingLot.class), anyString()))
+                .thenReturn(mockedSpot);
+
+        parkingService.leaveParking(1, new SmallElectricCar());
     }
 }

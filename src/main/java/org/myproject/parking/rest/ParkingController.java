@@ -48,6 +48,7 @@ public class ParkingController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Vehicle successfully left parking, invoice is created"),
             @ApiResponse(code = 403, message = "Forbidden to leave the free parking spot"),
             @ApiResponse(code = 404, message = "Parking Lot or required Spot not found"),
+            @ApiResponse(code = 422, message = "Unprocessable Vehicle Entity"),
             @ApiResponse(code = 500, message = "Wrong spot rent state") })
     @RequestMapping(value = "{parkingLotId}/leave", method = RequestMethod.PUT)
     public ResponseEntity<Invoice> leaveParking(
@@ -55,7 +56,7 @@ public class ParkingController {
             @ApiParam(value = "The information about vehicle that should leave the parking")  @RequestBody Vehicle vehicle) {
         logger.debug("A vehicle leaves the park with id: " + parkingLotId);
 
-        Invoice invoice = parkingService.leaveParking(parkingLotId, vehicle.getLicensePlate());
+        Invoice invoice = parkingService.leaveParking(parkingLotId, vehicle);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 
