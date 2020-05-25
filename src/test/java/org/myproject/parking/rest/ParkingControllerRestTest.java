@@ -48,8 +48,9 @@ public class ParkingControllerRestTest {
     public void testLeaveParking() {
         Integer parkId = 1;
         String plate = "plate";
+        Vehicle vehicle = new Sedan(plate);
 
-        ResponseEntity<Invoice> response = parkingController.leaveParking(parkId, plate);
+        ResponseEntity<Invoice> response = parkingController.leaveParking(parkId, vehicle);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
 
         verify(parkingService, times(1)).leaveParking(parkId, plate);

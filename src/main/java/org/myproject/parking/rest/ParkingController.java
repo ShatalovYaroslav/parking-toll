@@ -52,10 +52,10 @@ public class ParkingController {
     @RequestMapping(value = "{parkingLotId}/leave", method = RequestMethod.PUT)
     public ResponseEntity<Invoice> leaveParking(
             @ApiParam(value = "The ID of existing parking Lot")@PathVariable("parkingLotId") Integer parkingLotId,
-            @ApiParam(value = "The license plate of the leaving Vehicle") @RequestParam(value = "licensePlate") String licensePlate) {
+            @ApiParam(value = "The information about vehicle that should leave the parking")  @RequestBody Vehicle vehicle) {
         logger.debug("A vehicle leaves the park with id: " + parkingLotId);
 
-        Invoice invoice = parkingService.leaveParking(parkingLotId, licensePlate);
+        Invoice invoice = parkingService.leaveParking(parkingLotId, vehicle.getLicensePlate());
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 
