@@ -73,7 +73,7 @@ The detailed information about Parking Lots and Parking Spots are persisted in D
 <br> A user can control the path folder for default DB with setup a 'parking.home' system property.
 
 ## Structure
-The service is organized with a complete RESTful API. The service follows MVC packaging structure and covered by tests.
+The service is organized with a REST API. The service follows MVC packaging structure and covered by tests.
 The service is based on Spring framework and can be started with Spring Boot.
 To try it out use Swagger or (http://localhost:8080/parking).<br>
 
@@ -116,3 +116,22 @@ In the IntelliJ IDEA to be able to see Lombok generated code, you should enable 
 In order to follow the best testing practises it is included testing part of Spring components with Mockito.<br>
 The integration tests are provided in 'integration-tests' folder and applied usual black-box testing practise. For testing REST methods is used RestAssured.<br>
 
+## Assumptions
+
+In the real project all the questions should be clarified and discussed on the design stage. 
+In this exercise it is taken the next assumptions:
+
+- The parking rent time is calculated by hours the vehicle stays in the parking spot
+- The first hour in the parking spot it is free of charge
+- For the 'park vehicle' and 'leave parking' actions: the vehicle information is passed to this service via API.
+- When a vehicle leaves a parking, it will be provided the parking invoice. The invoice payment is out of scope of this service.
+- The main model classes are inside "model.persistence" package. 
+To avoid code duplication in this exercise the same main model classes representing internal model and DB entities.
+In real life project the internal model classes and entity classes for DB could be separated in different packages.
+The trade offs should be clarified and discussed for real use case.
+
+## Future improvements
+
+- It can be added the authentication mechanism. The API endpoints could be secured, so it will be difficult to exploit them
+- To improve the response time to get a parking spot it can be implemented a caching mechanism with Hash Map data structure
+- It could be added a rate limit control so the API users won’t overuse the API
