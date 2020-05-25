@@ -134,4 +134,5 @@ The trade offs should be clarified and discussed for real use case.
 
 - It can be added the authentication mechanism. The API endpoints could be secured, so it will be difficult to exploit them
 - To improve the response time to get a parking spot it can be implemented a caching mechanism with Hash Map data structure
+- The API endpoint to 'Get information about all parking lots' can be paginated
 - It could be added a rate limit control so the API users won’t overuse the API
