@@ -29,7 +29,7 @@ public class ParkingSpotService {
     public ParkingSpot getFreeSpotInParkingByType(ParkingLot parkingLot, VehicleType type) {
         List<ParkingSpot> freeSpotsForType  = parkingSpotRepository.
                 findFreeParkingSpotsByType(parkingLot.getParkingLotId(), type);
-        if(freeSpotsForType == null){
+        if(freeSpotsForType == null || freeSpotsForType.isEmpty()){
             throw new SpotNotFoundException(type);
         }
         return freeSpotsForType.get(0);

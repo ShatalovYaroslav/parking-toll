@@ -6,13 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.myproject.parking.IntegrationTestConfig;
+import org.myproject.parking.exception.SpotNotFoundException;
 import org.myproject.parking.model.Invoice;
 import org.myproject.parking.model.ParkingLotMetadata;
-import org.myproject.parking.exception.SpotNotFoundException;
 import org.myproject.parking.model.persistence.ParkingLot;
 import org.myproject.parking.model.persistence.ParkingSpot;
 import org.myproject.parking.model.vehicle.Sedan;
+import org.myproject.parking.model.vehicle.SmallElectricCar;
 import org.myproject.parking.model.vehicle.Vehicle;
+import org.myproject.parking.model.vehicle.VehicleType;
+import org.myproject.parking.pricing.PolicyType;
 import org.myproject.parking.util.ParkingLotStartupFixture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -21,9 +24,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.myproject.parking.IntegrationTestConfig.FIXED_PRICE_POLICY;
+import static org.myproject.parking.pricing.policy.FixedPricePlusPolicy.FIXED_PRICE_PARAMETER;
 
 
 @ActiveProfiles("test")
@@ -57,6 +63,37 @@ public class ParkingLogicIntegrationTest {
     @After
     public void deleteParking() {
         parkingLotService.removeParkingLot(parkingLot.getParkingLotId());
+    }
+
+    @Test (expected = SpotNotFoundException.class)
+    public void testParkVehicleInLotContainingNoSuchVehicleType() {
+        //create parking lot without VehicleType.TWENTY_KW
+        String name = "Test parking";
+        Map<VehicleType, Integer> spotsNumberByType = new HashMap<>();
+        Map<VehicleType, Float> priceByVehicleType = new HashMap<>();
+        Map<String, String> pricingParams = new HashMap<>();
+        pricingParams.put(FIXED_PRICE_PARAMETER, "10.0");
+
+        String pricingPolicyType = PolicyType.FIXED_PLUS.toString();
+        spotsNumberByType.put(VehicleType.GASOLINE, 3);
+        spotsNumberByType.put(VehicleType.FIFTY_KW, 2);
+
+        priceByVehicleType.put(VehicleType.GASOLINE, 10.0f);
+        priceByVehicleType.put(VehicleType.FIFTY_KW, 7.0f);
+
+        ParkingLotMetadata parkingLotMetadata = new ParkingLotMetadata(name,
+                pricingPolicyType, pricingParams, priceByVehicleType, spotsNumberByType);
+
+        parkingLot = parkingLotService.createParkingLot(parkingLotMetadata);
+
+        assertThat(parkingLot).isNotNull();
+        assertThat(parkingLot.getName()).isEqualTo(parkingLotMetadata.getName());
+        assertThat(parkingLot.getSpots().size()).isEqualTo(5);
+
+        //try to place vehicle with VehicleType.TWENTY_KW in this Lot
+        LocalDateTime startParking = LocalDateTime.now();
+        Vehicle testCar = new SmallElectricCar("license plate 1");
+        ParkingSpot parkedSpot = parkingService.parkVehicle(parkingLot.getParkingLotId(), testCar);
     }
 
     @Test
