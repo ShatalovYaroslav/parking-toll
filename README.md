@@ -60,9 +60,9 @@ The JSON example to create a Parking Lot is following:
 {
   "name": "test-parking-lot",
   "policyType": "FIXED_PLUS",
-  "priceByVehicleType": {"gasoline":1.4, "fifty_kw":3.7},
+  "priceByVehicleType": {"gasoline":1.4, "twenty_kw":2.7, "fifty_kw":3.7},
   "pricingParameters": {"fixedPrice":9.99},
-  "spotsNumberByType": {"gasoline":2, "fifty_kw":1}
+  "spotsNumberByType": {"gasoline":2, "twenty_kw":2, "fifty_kw":1}
 }
 ```
 
