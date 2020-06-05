@@ -110,11 +110,10 @@ public class ParkingControllerTest extends AbstractRestTest {
                 .path("spotId");
 
         // Leave Parking and get Invoice
-        given()
+        given().body(testCar)
                 .header("Accept", ContentType.JSON.getAcceptHeader())
                 .header("Content-Type", ContentType.JSON)
                 .pathParam("parkId", parkingTestId)
-                .queryParam("licensePlate", testCar.getLicensePlate())
                 .when()
                 .put(REST_SERVICE_URI + "{parkId}/leave")
                 .then()
